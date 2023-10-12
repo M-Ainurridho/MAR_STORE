@@ -1,0 +1,31 @@
+@keyframes arise {
+   0% {
+      transform: scale(0);
+   }
+
+   100% {
+      transform: scale(1);
+   }
+}
+
+@keyframes showAlert {
+   0% {
+      opacity: 0;
+   }
+
+   25% {
+      opacity: .5;
+   }
+
+   50% {
+      opacity: 1;
+   }
+
+   75% {
+      opacity: .5;
+   }
+
+   100% {
+      opacity: 0;
+   }
+}

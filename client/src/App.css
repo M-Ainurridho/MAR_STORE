@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@300;400;500;600;700&display=swap");
+@import url("./assets/css/animations.css");
+
+html {
+   scroll-behavior: smooth;
+}
+
+body {
+   font-family: "Dosis", sans-serif;
+}
+
+.hero {
+   background-image: url("./assets//images/backgrounds/hero.jpg");
+}
+
+.hero::before {
+   content: "";
+   display: block;
+
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 87vh;
+
+   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+.product-img {
+   background-image: red;
+}
+
+/* Utils */
+.popup-wraper {
+   animation: arise 0.3s linear;
+}
+
+.alert {
+   animation: showAlert 3s linear
+}
