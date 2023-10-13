@@ -1,6 +1,7 @@
 const { response } = require("../response");
 const User = require("../models/model-user");
 const Menu = require("../models/model-menu");
+const { default: mongoose } = require("mongoose");
 
 const getCartByUserId = async (req, res) => {
    const { _id } = req.params;
@@ -98,6 +99,18 @@ const updateUserMenu = async (req, res) => {
    }
 };
 
+const addNewSubmenu = async (req, res) => {
+   const { submenu, menuId, icon, link } = req.body;
+   console.log({ submenu, menuId, icon, link })
+   
+   try {
+      const addSubmenu = await Menu.findOneAndUpdate({_id: menuId}, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } }})
+      response(200, `Successfully! Add New Submenu`, res, addNewMenu);
+   } catch (err) {
+      console.log("error: ", err);
+   }
+};
+
 module.exports = {
    getCartByUserId,
    getUserMenu,
@@ -105,6 +118,7 @@ module.exports = {
    deleteCartByUserId,
    addNewCart,
    addNewMenu,
+   addNewSubmenu,
    deleteMenuById,
    updateUserMenu,
 };

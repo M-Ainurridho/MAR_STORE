@@ -8,10 +8,12 @@ router.get("/menu/search?", user.searchRequest);
 // POST
 router.post("/addcart", user.addNewCart);
 router.post("/addmenu", user.addNewMenu);
+router.post("/addsubmenu", user.addNewSubmenu);
 // router.post("/addsubmenu", user.addNewSubmenu);
 // DELETE
 router.delete("/cart", user.deleteCartByUserId);
 router.delete("/deletemenu", user.deleteMenuById);
+// router.delete("/deletesubmenu", user.deleteSubmenuById);
 // PATCH
 router.patch("/update/:_id", user.updateUserMenu)
 

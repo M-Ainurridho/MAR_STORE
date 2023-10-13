@@ -195,7 +195,6 @@ const MenuManagement = () => {
                            setMenu("");
                            setPopup(!popup);
                            setUserAccess([]);
-                           setReqMethod("GET");
                         }}
                      ></i>
                   </div>
