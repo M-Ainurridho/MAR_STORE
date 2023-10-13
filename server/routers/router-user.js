@@ -5,6 +5,7 @@ const { user } = require("../controllers");
 router.get("/cart/:_id", user.getCartByUserId);
 router.get("/menu", user.getUserMenu);
 router.get("/menu/search?", user.searchRequest);
+router.get("/submenu/:_id", user.searchSubmenu);
 // POST
 router.post("/addcart", user.addNewCart);
 router.post("/addmenu", user.addNewMenu);
@@ -14,8 +15,8 @@ router.post("/addsubmenu", user.addNewSubmenu);
 router.delete("/cart", user.deleteCartByUserId);
 router.delete("/deletemenu", user.deleteMenuById);
 router.delete("/deletesubmenu", user.deleteSubmenuById);
-// router.delete("/deletesubmenu", user.deleteSubmenuById);
 // PATCH
-router.patch("/update/:_id", user.updateUserMenu)
+router.patch("/updatemenu/:_id", user.updateUserMenu)
+router.patch("/updatesubmenu/:_id", user.updateSubmenu)
 
 module.exports = router;

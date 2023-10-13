@@ -4,7 +4,7 @@ import Settings from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { deleteMenu, newMenu } from "../../../redux/reducers";
+import { deleteMenu, newMenu, updateMenu } from "../../../redux/reducers";
 
 const SubmenuManagement = () => {
    Settings("Submenu Management", "admin");
@@ -13,10 +13,10 @@ const SubmenuManagement = () => {
    const [menus, setMenus] = useState([]);
    const [popup, setPopup] = useState(false);
    const [submenu, setSubmenu] = useState("");
+   const [submenuId, setSubmenuId] = useState("");
    const [icon, setIcon] = useState("");
    const [link, setLink] = useState("");
-   const [menuId, setMenuId] = useState("");
-   const [userAccess, setUserAccess] = useState([]);
+   const [menu, setMenu] = useState("");
    const [alert, setAlert] = useState(false);
    const [reqMethod, setReqMethod] = useState("GET");
 
@@ -26,10 +26,11 @@ const SubmenuManagement = () => {
             setTimeout(() => {
                localStorage.removeItem("alert");
                setAlert(false);
-               setReqMethod("GET")
             }, 3000);
          }
+         setReqMethod("GET")
          fetchMenu();
+         setSubmenu(""); setMenu(""); setIcon(""); setLink("")
       }
    }, [popup]);
 
@@ -47,16 +48,39 @@ const SubmenuManagement = () => {
 
       if(reqMethod === "GET") {
          try {
-            const response = await axios.post("http://localhost:3000/user/addsubmenu", { submenu, menuId, icon, link })
-            localStorage.setItem("alert", response.data.message);
+            const response = await axios.post("http://localhost:3000/user/addsubmenu", { submenu, menu, icon, link })
+            localStorage.setItem("alert", `${response.data.message}`);
             dispatch(newMenu(submenu));
+         } catch (err) {
+            console.log("error: ", err)
+         }
+      } else if (reqMethod === "UPDATE") {
+         try {
+            const response = await axios.patch(`http://localhost:3000/user/updatesubmenu/${submenuId}`, { submenu, menu, icon, link })
+            localStorage.setItem("alert", response.data.message);
+            dispatch(updateMenu("update"));
          } catch (err) {
             console.log("error: ", err)
          }
       }
       setPopup(!popup)
       setAlert(!alert);
-      setSubmenu(""); setMenuId(""); setIcon(""); setLink("")
+   };
+
+   const handleEdit = async (menuId, _id) => {
+      try {
+         const response = await axios.get(`http://localhost:3000/user/menu/search?_id=${menuId}`);
+         const {submenu, name} = response.data.payload
+
+         setMenu(name)
+         const same = submenu.find(sub => sub._id == _id)
+         setSubmenuId(same._id); setSubmenu(same.name); setIcon(same.icon); setLink(same.link)
+      } catch (err) {
+         console.log("error: ", err);
+      } finally {
+         setPopup(!popup);
+         setReqMethod("UPDATE");
+      }
    };
 
    const handleDelete = async (menuId, _id) => {
@@ -122,7 +146,7 @@ const SubmenuManagement = () => {
                                              <td className="p-2 text-center border-x border-x-neutral-200 truncate">{icon}</td>
                                              <td className="p-2 text-center border-x border-x-neutral-200 truncate">{link}</td>
                                              <td className="p-2 text-center font-medium flex flex-col md:flex-row gap-1 justify-center truncate">
-                                                <Link className="py-0 px-1 md:px-3 rounded-md bg-green-500 hover:bg-green-600 duration-100 text-white">edit</Link>
+                                                <Link className="py-0 px-1 md:px-3 rounded-md bg-green-500 hover:bg-green-600 duration-100 text-white" onClick={() => handleEdit(menu._id, _id)}>edit</Link>
                                                 <Link className="py-0 px-1 md:px-3 rounded-md bg-red-500 hover:bg-red-600 duration-100 text-white" onClick={() => handleDelete(menu._id, _id)}>delete</Link>
                                              </td>
                                           </tr>
@@ -159,11 +183,11 @@ const SubmenuManagement = () => {
                            required
                         />
                      </div>
-                     <select className="w-full py-1.5 px-3 border border-neutral-400 rounded-md text-sm focus:border-green-300 focus:outline-none focus:ring focus:ring-2 focus:ring-green-300" onChange={(e) => setMenuId(e.target.value)} required>
+                     <select className="w-full py-1.5 px-3 border border-neutral-400 rounded-md text-sm focus:border-green-300 focus:outline-none focus:ring focus:ring-2 focus:ring-green-300" onChange={(e) => setMenu(e.target.value)} value={menu} required>
                         <option selected>--- Select Menu Option ---</option>
                         {menus.map(({_id, name}) => {
                            return (
-                              <option key={_id} value={_id}>{name}</option>
+                              <option key={_id} value={name}>{name}</option>
                            )
                         })}
                      </select>
@@ -190,7 +214,7 @@ const SubmenuManagement = () => {
                      
                      <div className="my-2 mb-0">
                         <button type="submit" className="block w-full bg-green-500 hover:bg-green-600 duration-100 font-semibold py-1 rounded-md text-white">
-                           Add
+                        {reqMethod === "GET" ? "Add" : "Update"}
                         </button>
                      </div>
                   </form>

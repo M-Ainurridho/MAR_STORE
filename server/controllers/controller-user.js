@@ -100,15 +100,26 @@ const updateUserMenu = async (req, res) => {
 };
 
 const addNewSubmenu = async (req, res) => {
-   const { submenu, menuId, icon, link } = req.body;
+   const { submenu, menu, icon, link } = req.body;
    
    try {
-      const addSubmenu = await Menu.findOneAndUpdate({_id: menuId}, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } }})
+      const addSubmenu = await Menu.findOneAndUpdate({name: menu}, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } }})
       response(200, `Successfully! Add New Submenu`, res, addSubmenu);
    } catch (err) {
       console.log("error: ", err);
    }
 };
+
+const searchSubmenu = async (req, res) => {
+   const {_id} = req.params
+   
+   try {
+      const search = await Menu.findOne({ "submenu._id": _id })
+      response(200, "Result Seached Submenu", res, search);
+   } catch (err) {
+      console.log("error: ", err);
+   }
+}
 
 const deleteSubmenuById = async (req, res) => {
    const { menuId, _id, submenu } = req.body;
@@ -123,6 +134,22 @@ const deleteSubmenuById = async (req, res) => {
    }
 };
 
+const updateSubmenu = async (req, res) => {
+   const { _id } = req.params;
+   const {submenu, menu, icon, link} = req.body
+   console.log({
+      _id, submenu, menu, icon, link
+   })
+
+   try {
+      const update = await Menu.findOneAndUpdate({ "submenu._id": _id }, {$set : { "submenu.$.name": submenu, "submenu.$.icon": icon,  "submenu.$.link": link }})
+      response(200, `Successfully! Update Submenu ${submenu}`, res, update);
+   } catch (err) {
+      console.log("error: ", err);
+   }
+
+};
+
 module.exports = {
    getCartByUserId,
    getUserMenu,
@@ -131,7 +158,9 @@ module.exports = {
    addNewCart,
    addNewMenu,
    deleteMenuById,
+   updateSubmenu,
    updateUserMenu,
    addNewSubmenu,
    deleteSubmenuById,
+   searchSubmenu
 };

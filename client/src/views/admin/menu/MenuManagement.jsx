@@ -64,7 +64,7 @@ const MenuManagement = () => {
          }
       } else if (reqMethod === "UPDATE") {
          try {
-            const res = await axios.patch(`http://localhost:3000/user/update/${menuId}`, { menu, userAccess });
+            const res = await axios.patch(`http://localhost:3000/user/updatemenu/${menuId}`, { menu, userAccess });
             localStorage.setItem("success-update-menu", res.data.message);
             dispatch(updateMenu(res.data.payload));
          } catch (err) {
