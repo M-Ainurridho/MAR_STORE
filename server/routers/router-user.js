@@ -13,6 +13,7 @@ router.post("/addsubmenu", user.addNewSubmenu);
 // DELETE
 router.delete("/cart", user.deleteCartByUserId);
 router.delete("/deletemenu", user.deleteMenuById);
+router.delete("/deletesubmenu", user.deleteSubmenuById);
 // router.delete("/deletesubmenu", user.deleteSubmenuById);
 // PATCH
 router.patch("/update/:_id", user.updateUserMenu)

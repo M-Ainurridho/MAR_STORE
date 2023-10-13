@@ -4,7 +4,7 @@ import Settings from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { newMenu } from "../../../redux/reducers";
+import { deleteMenu, newMenu } from "../../../redux/reducers";
 
 const SubmenuManagement = () => {
    Settings("Submenu Management", "admin");
@@ -60,9 +60,17 @@ const SubmenuManagement = () => {
    };
 
    const handleDelete = async (menuId, _id) => {
-      const payload = { _id };
-
-      
+      dispatch(newMenu("delete"))
+      setPopup(null)
+      try {
+         const response = await axios.delete("http://localhost:3000/user/deletesubmenu", {data : { menuId, _id, submenu}})
+         localStorage.setItem("alert", response.data.message);
+         dispatch(deleteMenu());
+      } catch (err) {
+         console.log("error: ", err)
+      }
+      setPopup(false)
+      setAlert(!alert);
    };
 
    return (

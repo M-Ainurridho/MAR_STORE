@@ -93,8 +93,9 @@ const MenuManagement = () => {
    };
 
    const handleDelete = async (_id) => {
+      dispatch(newMenu("delete"))
+      setPopup(null);
       try {
-         setPopup(null);
          const res = await axios.delete("http://localhost:3000/user/deletemenu", { data: { _id } });
          localStorage.setItem("success-delete-menu", res.data.message);
          dispatch(deleteMenu());

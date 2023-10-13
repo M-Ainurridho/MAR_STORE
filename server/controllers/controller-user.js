@@ -110,6 +110,19 @@ const addNewSubmenu = async (req, res) => {
    }
 };
 
+const deleteSubmenuById = async (req, res) => {
+   const { menuId, _id, submenu } = req.body;
+
+
+   try {
+      const deleteSubmenu = await Menu.findOneAndUpdate({ _id: menuId }, { $pull: { submenu: {_id} }});
+      const {submenu} = deleteSubmenu
+      response(200, `Successfully! Delete Submenu ${submenu[submenu.length-1].name}`, res, {submenu, menuId, _id, "delete?" : "successed"});
+   } catch (err) {
+      console.log("error: ", err);
+   }
+};
+
 module.exports = {
    getCartByUserId,
    getUserMenu,
@@ -117,7 +130,8 @@ module.exports = {
    deleteCartByUserId,
    addNewCart,
    addNewMenu,
-   addNewSubmenu,
    deleteMenuById,
    updateUserMenu,
+   addNewSubmenu,
+   deleteSubmenuById,
 };
