@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import Settings from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { newMenu } from "../../../redux/reducers";
 
 const SubmenuManagement = () => {
-   Settings("Menu Management", "admin");
+   Settings("Submenu Management", "admin");
 
+   const dispatch = useDispatch()
    const [menus, setMenus] = useState([]);
    const [popup, setPopup] = useState(false);
    const [submenu, setSubmenu] = useState("");
@@ -18,7 +21,16 @@ const SubmenuManagement = () => {
    const [reqMethod, setReqMethod] = useState("GET");
 
    useEffect(() => {
-      fetchMenu();
+      if (popup === false) {
+         if (alert) {
+            setTimeout(() => {
+               localStorage.removeItem("alert");
+               setAlert(false);
+               setReqMethod("GET")
+            }, 3000);
+         }
+         fetchMenu();
+      }
    }, [popup]);
 
    const fetchMenu = async () => {
@@ -36,26 +48,21 @@ const SubmenuManagement = () => {
       if(reqMethod === "GET") {
          try {
             const response = await axios.post("http://localhost:3000/user/addsubmenu", { submenu, menuId, icon, link })
-            console.log(response)
+            localStorage.setItem("alert", response.data.message);
+            dispatch(newMenu(submenu));
          } catch (err) {
             console.log("error: ", err)
          }
       }
       setPopup(!popup)
+      setAlert(!alert);
+      setSubmenu(""); setMenuId(""); setIcon(""); setLink("")
    };
 
    const handleDelete = async (menuId, _id) => {
       const payload = { _id };
 
-      // try {
-      //    const res = await axios.delete("http://localhost:3000/user/deletemenu", { data: payload });
-      //    localStorage.setItem("success-delete-menu", res.data.message);
-      //    dispatch(deleteMenu());
-      // } catch (err) {
-      //    console.log("error: ", err);
-      // } finally {
-      //    setAlert(!alert);
-      // }
+      
    };
 
    return (
@@ -64,6 +71,16 @@ const SubmenuManagement = () => {
             <CrumbNTitle menu={"Menu"}>
                <strong>Submenu Management</strong>
             </CrumbNTitle>
+
+            {alert && (
+               <div className="p-4 pb-0">
+                  <div className="alert bg-green-500 p-3 mt-1 text-white rounded-md font-semibold">
+                     {localStorage.getItem("alert")}
+                  </div>
+               </div>
+            )}
+
+
             <div className="p-6 text-lg">
                <div className="edit-profile bg-white rounded-md border border-neutral-200">
                   <div className="py-2 px-4 border-b border-b-neutral-200 flex justify-between">

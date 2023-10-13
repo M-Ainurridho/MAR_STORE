@@ -101,11 +101,10 @@ const updateUserMenu = async (req, res) => {
 
 const addNewSubmenu = async (req, res) => {
    const { submenu, menuId, icon, link } = req.body;
-   console.log({ submenu, menuId, icon, link })
    
    try {
       const addSubmenu = await Menu.findOneAndUpdate({_id: menuId}, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } }})
-      response(200, `Successfully! Add New Submenu`, res, addNewMenu);
+      response(200, `Successfully! Add New Submenu`, res, addSubmenu);
    } catch (err) {
       console.log("error: ", err);
    }
