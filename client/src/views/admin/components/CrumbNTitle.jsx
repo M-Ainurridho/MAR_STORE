@@ -1,9 +1,15 @@
-const CrumbNTitle = ({ menu, children }) => {
+import { useHref } from "react-router-dom";
+import { capitalize } from "../../../utils/settings";
+
+const CrumbNTitle = ({ children }) => {
+   const href = useHref();
+   const menu = href.split("/")[1];
+
    return (
       <>
          <div className="p-6 tracking-wider text-center md:text-left">
             <h2 className="text-lg lg:text-xl">
-               <span className="text-neutral-700">{menu}/ </span>
+               <span className="text-neutral-700">{capitalize(menu)} / </span>
                {children}
             </h2>
          </div>

@@ -46,8 +46,8 @@ const SignIn = () => {
             const user = await axios.get("http://localhost:3000/auth/exchangetoken");
             dispatch(signIn({ authentication: true, user: user.data.payload }));
 
-            if (user?.data.payload.role === "Member") {
-               navigate("/user");
+            if (user?.data.payload.role === "member") {
+               navigate("/member");
             } else {
                navigate("/admin");
             }

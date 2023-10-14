@@ -6,7 +6,7 @@ const Dashboard = () => {
 
    return (
       <section id="dashboard">
-         <CrumbNTitle menu={"Admin"}>
+         <CrumbNTitle>
             <strong>Dashboard</strong>
          </CrumbNTitle>
          <div></div>

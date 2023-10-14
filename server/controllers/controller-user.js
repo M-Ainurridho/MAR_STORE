@@ -101,9 +101,9 @@ const updateUserMenu = async (req, res) => {
 
 const addNewSubmenu = async (req, res) => {
    const { submenu, menu, icon, link } = req.body;
-   
+
    try {
-      const addSubmenu = await Menu.findOneAndUpdate({name: menu}, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } }})
+      const addSubmenu = await Menu.findOneAndUpdate({ name: menu }, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } } });
       response(200, `Successfully! Add New Submenu`, res, addSubmenu);
    } catch (err) {
       console.log("error: ", err);
@@ -111,24 +111,23 @@ const addNewSubmenu = async (req, res) => {
 };
 
 const searchSubmenu = async (req, res) => {
-   const {_id} = req.params
-   
+   const { _id } = req.params;
+
    try {
-      const search = await Menu.findOne({ "submenu._id": _id })
+      const search = await Menu.findOne({ "submenu._id": _id });
       response(200, "Result Seached Submenu", res, search);
    } catch (err) {
       console.log("error: ", err);
    }
-}
+};
 
 const deleteSubmenuById = async (req, res) => {
    const { menuId, _id, submenu } = req.body;
 
-
    try {
-      const deleteSubmenu = await Menu.findOneAndUpdate({ _id: menuId }, { $pull: { submenu: {_id} }});
-      const {submenu} = deleteSubmenu
-      response(200, `Successfully! Delete Submenu ${submenu[submenu.length-1].name}`, res, {submenu, menuId, _id, "delete?" : "successed"});
+      const deleteSubmenu = await Menu.findOneAndUpdate({ _id: menuId }, { $pull: { submenu: { _id } } });
+      const { submenu } = deleteSubmenu;
+      response(200, `Successfully! Delete Submenu ${submenu[submenu.length - 1].name}`, res, { submenu, menuId, _id, "delete?": "successed" });
    } catch (err) {
       console.log("error: ", err);
    }
@@ -136,18 +135,27 @@ const deleteSubmenuById = async (req, res) => {
 
 const updateSubmenu = async (req, res) => {
    const { _id } = req.params;
-   const {submenu, menu, icon, link} = req.body
-   console.log({
-      _id, submenu, menu, icon, link
-   })
+   const { submenu, menu, icon, link } = req.body;
 
    try {
-      const update = await Menu.findOneAndUpdate({ "submenu._id": _id }, {$set : { "submenu.$.name": submenu, "submenu.$.icon": icon,  "submenu.$.link": link }})
+      const update = await Menu.findOneAndUpdate({ "submenu._id": _id }, { $set: { "submenu.$.name": submenu, "submenu.$.icon": icon, "submenu.$.link": link } });
       response(200, `Successfully! Update Submenu ${submenu}`, res, update);
    } catch (err) {
       console.log("error: ", err);
    }
+};
 
+const checkUserAccess = async (req, res) => {
+   const { menu, role } = req.query;
+
+   try {
+      const access = await Menu.findOne({ name: menu.toUpperCase(), user_access: role });
+      if (access === null) return response(403, `403! Forbidden Access`, res, access);
+
+      return response(200, `Have an Access`, res, access);
+   } catch (err) {
+      console.log("error: ", err);
+   }
 };
 
 module.exports = {
@@ -162,5 +170,6 @@ module.exports = {
    updateUserMenu,
    addNewSubmenu,
    deleteSubmenuById,
-   searchSubmenu
+   searchSubmenu,
+   checkUserAccess,
 };

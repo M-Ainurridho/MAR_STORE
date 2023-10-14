@@ -1,7 +1,10 @@
 import { useSelector } from "react-redux";
 import CrumbNTitle from "./components/CrumbNTitle";
+import Settings from "../../utils/settings";
 
 const Profile = () => {
+   Settings("User")
+
    const onSubmit = (e) => {
       e.preventDefault();
    };

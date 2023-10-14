@@ -13,6 +13,10 @@ const Navbar = () => {
    const [dropdown, setDropdown] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
 
+   const userRole = () => {
+      data.role === "member" ? navigate("/member") : navigate("/admin");
+   };
+
    return (
       <>
          <nav className="navbar h-screen-13 fixed top-0 left-0 right-0 bg-white flex justify-between items-center gap-x-2 md:px-8 lg:px-16 shadow z-50">
@@ -94,7 +98,7 @@ const Navbar = () => {
                         <img src={require(`../../../../assets/images/avatars/profile.png`)} alt="" className="w-16 md:w-20 rounded-full object-cover shadow-lg" />
                         {dropdown && (
                            <div className="absolute top-12 md:left-0 right-0 md:right-auto border border-neutral-200 p-2 pl-4 md:pl-2 md:pr-4 rounded-md bg-white translate-y-2">
-                              <p className="text-sm cursor-pointer hover:text-green-500 duration-100" onClick={() => navigate("/admin")}>
+                              <p className="text-sm cursor-pointer hover:text-green-500 duration-100" onClick={userRole}>
                                  Dashboard
                               </p>
                            </div>
@@ -111,4 +115,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

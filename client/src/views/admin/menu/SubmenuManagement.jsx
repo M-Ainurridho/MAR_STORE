@@ -100,7 +100,7 @@ const SubmenuManagement = () => {
    return (
       <>
          <section id="submenu-management">
-            <CrumbNTitle menu={"Menu"}>
+            <CrumbNTitle>
                <strong>Submenu Management</strong>
             </CrumbNTitle>
 

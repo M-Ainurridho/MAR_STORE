@@ -1,14 +1,17 @@
 const { default: mongoose, Schema } = require("mongoose");
+require("../config/db");
 
 const MenuSchema = new Schema({
    name: String,
    user_access: [String],
-   submenu: [{
-      _id: mongoose.Schema.Types.ObjectId,
-      name: String,
-      icon: String,
-      link: String,
-   },],
+   submenu: [
+      {
+         _id: mongoose.Schema.Types.ObjectId,
+         name: String,
+         icon: String,
+         link: String,
+      },
+   ],
 });
 
 const Menu = mongoose.model("Menu", MenuSchema);

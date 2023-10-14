@@ -19,7 +19,15 @@ const UserRouter = () => {
             }
          ></Route>
          <Route
-            path="/admin/profile"
+            path="/member"
+            element={
+               <Layout>
+                  <Dashboard />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/user"
             element={
                <Layout>
                   <Profile />
@@ -38,7 +46,7 @@ const UserRouter = () => {
             path="/menu/submenu_management"
             element={
                <Layout>
-                  <SubmenuManagement/>
+                  <SubmenuManagement />
                </Layout>
             }
          ></Route>

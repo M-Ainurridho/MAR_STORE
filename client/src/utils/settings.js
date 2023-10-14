@@ -2,6 +2,12 @@ import { useDispatch } from "react-redux";
 import { onPageChange } from "../redux/reducers";
 import { useEffect } from "react";
 
+export const capitalize = (text) => {
+   const firstWord = text.slice(0, 1).toUpperCase();
+   const slices = text.slice(1)
+   return firstWord + slices
+};
+
 const setTitle = (page, access) => {
    access === "admin" ? (document.title = `${page} | Admin`) : (document.title = `${page} | MAR STORE`);
 };

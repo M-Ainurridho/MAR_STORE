@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteMenu, newMenu, updateMenu } from "../../../redux/reducers";
@@ -27,7 +27,7 @@ const MenuManagement = () => {
                localStorage.removeItem("success-delete-menu");
                localStorage.removeItem("success-update-menu");
                setAlert(false);
-               setReqMethod("GET")
+               setReqMethod("GET");
             }, 3000);
          }
          fetchMenu();
@@ -93,7 +93,7 @@ const MenuManagement = () => {
    };
 
    const handleDelete = async (_id) => {
-      dispatch(newMenu("delete"))
+      dispatch(newMenu("delete"));
       setPopup(null);
       try {
          const res = await axios.delete("http://localhost:3000/user/deletemenu", { data: { _id } });
@@ -120,7 +120,7 @@ const MenuManagement = () => {
    return (
       <>
          <section id="menu-management">
-            <CrumbNTitle menu="Menu">
+            <CrumbNTitle>
                <strong>Menu Management</strong>
             </CrumbNTitle>
 
@@ -160,8 +160,8 @@ const MenuManagement = () => {
                                  <tr key={menu._id} className="grid grid-cols-3 text-base border-t border-t-neutral-200">
                                     <td className="p-2 text-center truncate">{menu.name}</td>
                                     <td className="p-2 text-center border-x border-x-neutral-200 truncate">
-                                       {user_access.map((user) => {
-                                          return <>{user}, </>;
+                                       {user_access.map((user, i) => {
+                                          return <Fragment key={i}>{user}, </Fragment>;
                                        })}
                                     </td>
                                     <td className="p-2 text-center font-medium flex gap-x-2 justify-center">

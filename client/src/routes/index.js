@@ -10,7 +10,7 @@ const Router = () => {
 
    return (
       <>
-         {href === "admin" || href === "menu" || href === "user" ? (
+         {href === "admin" || href === "member" || href === "menu" || href === "user" ? (
             <UserRouter />
          ) : href === "auth" ? (
             <AuthRouter />

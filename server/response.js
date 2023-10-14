@@ -1,13 +1,5 @@
 module.exports.response = (statusCode, message, res, data = []) => {
-   if (statusCode === 402) {
-      return res.status(statusCode).json({
-         status: false,
-         message,
-         errors: data,
-      });
-   }
-
-   if (statusCode === 404) {
+   if (statusCode >= 400) {
       return res.status(statusCode).json({
          status: false,
          message,

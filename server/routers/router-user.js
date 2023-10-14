@@ -6,6 +6,7 @@ router.get("/cart/:_id", user.getCartByUserId);
 router.get("/menu", user.getUserMenu);
 router.get("/menu/search?", user.searchRequest);
 router.get("/submenu/:_id", user.searchSubmenu);
+router.get("/access?", user.checkUserAccess);
 // POST
 router.post("/addcart", user.addNewCart);
 router.post("/addmenu", user.addNewMenu);
