@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 
-import Layout from "../views/layouts/admin";
+import Layout from "../views/layouts/user";
 import Dashboard from "../views/admin/Dashboard";
 import NotFound from "../views/errors/NotFound";
 import Profile from "../views/admin/Profile";
+import EditProfile from "../views/admin/EditProfile";
 import MenuManagement from "../views/admin/menu/MenuManagement";
 import SubmenuManagement from "../views/admin/menu/SubmenuManagement";
 
@@ -31,6 +32,14 @@ const UserRouter = () => {
             element={
                <Layout>
                   <Profile />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/user/edit"
+            element={
+               <Layout>
+                  <EditProfile />
                </Layout>
             }
          ></Route>
