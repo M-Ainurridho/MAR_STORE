@@ -26,7 +26,7 @@ const Sidebar = ({ isCollapse, setCollapse }) => {
          {innerWidth < 768 ? (
             <>
                {isCollapse && (
-                  <aside className={`bg-neutral-800 md:hidden block fixed left-0 top-0 bottom-0 w-3/5 sm:w-1/2 z-10 p-3`}>
+                  <aside className={`bg-neutral-800 md:hidden block fixed left-0 top-0 bottom-0 w-3/5 sm:w-1/2 z-10 p-3 z-20`}>
                      <div className="flex justify-between items-center">
                         <p className="max-w-max cursor-pointer text-2xl font-bold" onClick={() => navigate("/")}>
                            <span className="text-green-500 tracking-wide">MAR</span>

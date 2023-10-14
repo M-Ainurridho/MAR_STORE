@@ -16,10 +16,8 @@ const Layout = ({ children }) => {
    const { authentication, data } = useSelector((state) => state.user);
    const [isCollapse, setIsCollapse] = useState(false);
    const [haveAccess, setHaveAccess] = useState(null);
-   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
-      setLoading(true);
       if (!authentication) {
          localStorage.removeItem("token");
          dispatch(signOut());
@@ -32,17 +30,14 @@ const Layout = ({ children }) => {
    const userAccessCheck = async () => {
       const menu = href.split("/")[1];
 
-      if (menu != "user") {
+      if (menu !== "user") {
          try {
             const res = await axios.get(`http://localhost:3000/user/access?menu=${menu}&role=${data.role}`);
             res.data.status === 200 && setHaveAccess(true);
          } catch (err) {
             setHaveAccess(false);
-         } finally {
-            return setLoading(false);
          }
       }
-      setHaveAccess(true);
    };
 
    return (

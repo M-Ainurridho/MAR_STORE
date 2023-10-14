@@ -66,7 +66,7 @@ const Edit = () => {
             <i class="bx-fw bx bxs-user-circle text-base -translate-y-1.5"></i>
             <strong> Edit Profile</strong>
          </p>
-         <form onSubmit={onSubmit}>
+         <form onSubmit={onSubmit} encType="multipart/form-data">
             <div className="avatar bg-white p-4 border-b border-b-neutral-200">
                <p className="font-semibold mb-2">Avatar</p>
                <label class="block">
