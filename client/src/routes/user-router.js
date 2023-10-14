@@ -7,7 +7,7 @@ import Profile from "../views/admin/Profile";
 import MenuManagement from "../views/admin/menu/MenuManagement";
 import SubmenuManagement from "../views/admin/menu/SubmenuManagement";
 
-const AdminRouter = () => {
+const UserRouter = () => {
    return (
       <Routes>
          <Route
@@ -27,7 +27,7 @@ const AdminRouter = () => {
             }
          ></Route>
          <Route
-            path="/admin/menu_management"
+            path="/menu"
             element={
                <Layout>
                   <MenuManagement />
@@ -35,7 +35,7 @@ const AdminRouter = () => {
             }
          ></Route>
          <Route
-            path="/admin/submenu_management"
+            path="/menu/submenu_management"
             element={
                <Layout>
                   <SubmenuManagement/>
@@ -47,4 +47,4 @@ const AdminRouter = () => {
    );
 };
 
-export default AdminRouter;
+export default UserRouter;

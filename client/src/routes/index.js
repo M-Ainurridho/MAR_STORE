@@ -1,4 +1,4 @@
-import AdminRouter from "./admin-router";
+import UserRouter from "./user-router";
 import AuthRouter from "./auth-router";
 import RTL from "./rtl-router";
 // import MemberRouter from "./member-router";
@@ -10,8 +10,8 @@ const Router = () => {
 
    return (
       <>
-         {href === "admin" ? (
-            <AdminRouter />
+         {href === "admin" || href === "menu" || href === "user" ? (
+            <UserRouter />
          ) : href === "auth" ? (
             <AuthRouter />
          ) : (
