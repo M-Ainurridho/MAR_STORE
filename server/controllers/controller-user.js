@@ -2,6 +2,8 @@ const { response } = require("../response");
 const User = require("../models/model-user");
 const Menu = require("../models/model-menu");
 const { default: mongoose } = require("mongoose");
+const fs = require("fs");
+const { removeFile } = require("../utils/removeFile");
 
 const getCartByUserId = async (req, res) => {
    const { _id } = req.params;
@@ -158,6 +160,42 @@ const checkUserAccess = async (req, res) => {
    }
 };
 
+const editProfileWithoutImage = async (req, res) => {
+   const { _id } = req.params;
+   const { name, email } = req.body;
+
+   try {
+      const edit = await User.findOneAndUpdate({ _id }, { $set: { name, email } });
+      userInfo(edit, res);
+   } catch (err) {
+      console.log("error", err);
+   }
+};
+
+const editProfileWithImage = async (req, res) => {
+   if (req.file === undefined) return response(400, "Invalid Image", res, "Not image type");
+
+   const { filename, size } = req.file;
+   const { name, email } = req.body;
+   const { _id } = req.params;
+
+   try {
+      const { image } = await User.findOne({ _id });
+      if (image !== "nophoto.jpg") {
+         removeFile(image);
+      }
+      const edit = await User.findOneAndUpdate({ _id }, { $set: { name, email, image: filename } });
+      userInfo(edit, res);
+   } catch (err) {
+      console.log("editProfile:", err);
+   }
+};
+
+const userInfo = async ({ _id }, res) => {
+   const user = await User.findOne({ _id });
+   response(200, "Successfully! Edit Profile", res, user);
+};
+
 module.exports = {
    getCartByUserId,
    getUserMenu,
@@ -172,4 +210,6 @@ module.exports = {
    deleteSubmenuById,
    searchSubmenu,
    checkUserAccess,
+   editProfileWithImage,
+   editProfileWithoutImage,
 };

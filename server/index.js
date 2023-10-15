@@ -19,12 +19,6 @@ const userRoute = require("./routers/router-user");
 app.use("/product", productRoute);
 app.use("/auth", authRoute);
 app.use("/user", userRoute);
-app.use("/", (req, res) => {
-   res.json({
-      status: 200,
-      message: "Data already"
-   })
-});
 
 app.listen(port, () => {
    console.log(`MAR_STORE Listening at http://localhost:${port}`);

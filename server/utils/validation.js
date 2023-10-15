@@ -44,6 +44,20 @@ module.exports.signinValidation = [
    },
 ];
 
+module.exports.editUserValidation = [
+   body("name").trim().notEmpty().withMessage("Require input field"),
+   body("email").trim().notEmpty().withMessage("Require input field"),
+   (req, res, next) => {
+      const result = validationResult(req);
+
+      if (!result.isEmpty()) {
+         return response(402, "Error!", res, result.array());
+      }
+
+      next();
+   },
+];
+
 module.exports.tokenValidation = (req, res, next) => {
    const token = req.headers["auth-token"];
 

@@ -70,6 +70,14 @@ export const userReducer = createSlice({
          state.authentication = false;
          state.data = {};
       },
+
+      editDataUser: (state, action) => {
+         state.data = action.payload;
+      },
+
+      defaultImage: (state) => {
+         state.data.image = "nophoto.jpg"
+      },
    },
 });
 
@@ -77,7 +85,7 @@ export const userMenuReducer = createSlice({
    name: "user menu",
    initialState: {
       name: "",
-      currentSubmenu: ""
+      currentSubmenu: "",
    },
 
    reducers: {
@@ -94,13 +102,13 @@ export const userMenuReducer = createSlice({
       },
 
       currentSubmenu: (state, action) => {
-         state.currentSubmenu = action.payload
-      }
+         state.currentSubmenu = action.payload;
+      },
    },
 });
 
 export const { onPageChange } = pageReducer.actions;
 export const { inputSearch } = searchReducer.actions;
 export const { categoryChange, clearCategoryMenu, addItemToCart, overwrite } = shopReducer.actions;
-export const { signIn, signOut } = userReducer.actions;
+export const { signIn, signOut, editDataUser, defaultImage } = userReducer.actions;
 export const { newMenu, updateMenu, deleteMenu, currentSubmenu } = userMenuReducer.actions;

@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const { user } = require("../controllers");
+const { upload } = require("../utils/uploadFile");
+const { editUserValidation } = require("../utils/validation");
 
 // GET
 router.get("/cart/:_id", user.getCartByUserId);
@@ -11,13 +13,14 @@ router.get("/access?", user.checkUserAccess);
 router.post("/addcart", user.addNewCart);
 router.post("/addmenu", user.addNewMenu);
 router.post("/addsubmenu", user.addNewSubmenu);
-// router.post("/addsubmenu", user.addNewSubmenu);
 // DELETE
 router.delete("/cart", user.deleteCartByUserId);
 router.delete("/deletemenu", user.deleteMenuById);
 router.delete("/deletesubmenu", user.deleteSubmenuById);
 // PATCH
-router.patch("/updatemenu/:_id", user.updateUserMenu)
-router.patch("/updatesubmenu/:_id", user.updateSubmenu)
+router.patch("/edit/with_image/:_id", upload.single("image"), user.editProfileWithImage);
+router.patch("/edit/without_image/:_id", editUserValidation, user.editProfileWithoutImage);
+router.patch("/updatemenu/:_id", user.updateUserMenu);
+router.patch("/updatesubmenu/:_id", user.updateSubmenu);
 
 module.exports = router;
