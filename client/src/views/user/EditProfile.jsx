@@ -123,8 +123,19 @@ const Edit = () => {
 };
 
 const ChangePassword = () => {
-   const onSubmit = (e) => {
+   const { _id } = useSelector((state) => state.user.data);
+   const [current, setCurrent] = useState("");
+   const [newPass, setNewPass] = useState("");
+   const [confirm, setConfirm] = useState("");
+
+   const onSubmit = async (e) => {
       e.preventDefault();
+
+      try {
+         const response = await axios.patch(`http://localhost:3000/user/changepassword/${_id}`, { current, newPass, confirm });
+      } catch (err) {
+         console.log("error: ", err);
+      }
    };
 
    return (
@@ -139,7 +150,13 @@ const ChangePassword = () => {
                   <label htmlFor="current-password" className="block font-semibold mb-1">
                      Current Password
                   </label>
-                  <input type="password" id="current-password" className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base focus:border-green-300 focus:outline-none focus:ring focus:ring-green-300" />
+                  <input
+                     type="password"
+                     id="current-password"
+                     className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base focus:border-green-300 focus:outline-none focus:ring focus:ring-green-300"
+                     value={current}
+                     onChange={(e) => setCurrent(e.target.value)}
+                  />
                </div>
             </div>
             <div className="p-4 border-b border-b-neutral-200">
@@ -147,13 +164,25 @@ const ChangePassword = () => {
                   <label htmlFor="new-password" className="block font-semibold mb-1">
                      New Password
                   </label>
-                  <input type="password" id="new-password" className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base focus:border-green-300 focus:outline-none focus:ring focus:ring-green-300" />
+                  <input
+                     type="password"
+                     id="new-password"
+                     className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base focus:border-green-300 focus:outline-none focus:ring focus:ring-green-300"
+                     value={newPass}
+                     onChange={(e) => setNewPass(e.target.value)}
+                  />
                </div>
                <div>
                   <label htmlFor="confirm-password" className="block font-semibold mb-1">
                      Confirm Password
                   </label>
-                  <input type="password" id="confirm-password" className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base focus:border-green-300 focus:outline-none focus:ring focus:ring-green-300" />
+                  <input
+                     type="password"
+                     id="confirm-password"
+                     className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base focus:border-green-300 focus:outline-none focus:ring focus:ring-green-300"
+                     value={confirm}
+                     onChange={(e) => setConfirm(e.target.value)}
+                  />
                </div>
             </div>
             <div className="p-4">
@@ -165,29 +194,5 @@ const ChangePassword = () => {
       </div>
    );
 };
-
-// const Detail = () => {
-//    const { data } = useSelector((state) => state.user);
-
-//    return (
-//       <div className="profile bg-white rounded-md border border-neutral-200 border-b border-b-neutral-200">
-//          <p className=" py-2 px-4 text-lg border-b border-b-neutral-200">
-//             <i className="bx-fw bx bxs-user text-base -translate-y-1.5"></i>
-//             <strong>Profile</strong>
-//          </p>
-//          <div className="p-4 border-b border-b-neutral-200">
-//             <img src={require(`../../assets/images/avatars/profile.png`)} alt={data.image} className="w-48 h-48 mx-auto rounded-full shadow" />
-//          </div>
-//          <div className="p-4 pt-2 border-b border-b-neutral-200">
-//             <label className="block font-semibold mb-1">Name</label>
-//             <input type="text" className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base" value="Muhammad Ainurridho" disabled />
-//          </div>
-//          <div className="p-4 pt-2">
-//             <label className="block font-semibold mb-1">Email</label>
-//             <input type="email" className="block w-full p-2 px-3 border border-neutral-400 rounded-md text-base" value="admin@gmail.com" disabled />
-//          </div>
-//       </div>
-//    );
-// };
 
 export default EditProfile;

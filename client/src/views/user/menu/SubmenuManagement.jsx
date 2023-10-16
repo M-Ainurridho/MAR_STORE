@@ -9,7 +9,7 @@ import { deleteMenu, newMenu, updateMenu } from "../../../redux/reducers";
 const SubmenuManagement = () => {
    Settings("Submenu Management", "admin");
 
-   const dispatch = useDispatch()
+   const dispatch = useDispatch();
    const [menus, setMenus] = useState([]);
    const [popup, setPopup] = useState(false);
    const [submenu, setSubmenu] = useState("");
@@ -28,9 +28,12 @@ const SubmenuManagement = () => {
                setAlert(false);
             }, 3000);
          }
-         setReqMethod("GET")
+         setReqMethod("GET");
          fetchMenu();
-         setSubmenu(""); setMenu(""); setIcon(""); setLink("")
+         setSubmenu("");
+         setMenu("");
+         setIcon("");
+         setLink("");
       }
    }, [popup]);
 
@@ -46,35 +49,38 @@ const SubmenuManagement = () => {
    const onSubmit = async (e) => {
       e.preventDefault();
 
-      if(reqMethod === "GET") {
+      if (reqMethod === "GET") {
          try {
-            const response = await axios.post("http://localhost:3000/user/addsubmenu", { submenu, menu, icon, link })
+            const response = await axios.post("http://localhost:3000/user/addsubmenu", { submenu, menu, icon, link });
             localStorage.setItem("alert", `${response.data.message}`);
             dispatch(newMenu(submenu));
          } catch (err) {
-            console.log("error: ", err)
+            console.log("error: ", err);
          }
       } else if (reqMethod === "UPDATE") {
          try {
-            const response = await axios.patch(`http://localhost:3000/user/updatesubmenu/${submenuId}`, { submenu, menu, icon, link })
+            const response = await axios.patch(`http://localhost:3000/user/updatesubmenu/${submenuId}`, { submenu, menu, icon, link });
             localStorage.setItem("alert", response.data.message);
             dispatch(updateMenu("update"));
          } catch (err) {
-            console.log("error: ", err)
+            console.log("error: ", err);
          }
       }
-      setPopup(!popup)
+      setPopup(!popup);
       setAlert(!alert);
    };
 
    const handleEdit = async (menuId, _id) => {
       try {
          const response = await axios.get(`http://localhost:3000/user/menu/search?_id=${menuId}`);
-         const {submenu, name} = response.data.payload
+         const { submenu, name } = response.data.payload;
 
-         setMenu(name)
-         const same = submenu.find(sub => sub._id == _id)
-         setSubmenuId(same._id); setSubmenu(same.name); setIcon(same.icon); setLink(same.link)
+         setMenu(name);
+         const same = submenu.find((sub) => sub._id == _id);
+         setSubmenuId(same._id);
+         setSubmenu(same.name);
+         setIcon(same.icon);
+         setLink(same.link);
       } catch (err) {
          console.log("error: ", err);
       } finally {
@@ -84,16 +90,16 @@ const SubmenuManagement = () => {
    };
 
    const handleDelete = async (menuId, _id) => {
-      dispatch(newMenu("delete"))
-      setPopup(null)
+      dispatch(newMenu("delete"));
+      setPopup(null);
       try {
-         const response = await axios.delete("http://localhost:3000/user/deletesubmenu", {data : { menuId, _id, submenu}})
+         const response = await axios.delete("http://localhost:3000/user/deletesubmenu", { data: { menuId, _id, submenu } });
          localStorage.setItem("alert", response.data.message);
          dispatch(deleteMenu());
       } catch (err) {
-         console.log("error: ", err)
+         console.log("error: ", err);
       }
-      setPopup(false)
+      setPopup(false);
       setAlert(!alert);
    };
 
@@ -106,21 +112,20 @@ const SubmenuManagement = () => {
 
             {alert && (
                <div className="p-4 pb-0">
-                  <div className="alert bg-green-500 p-3 mt-1 text-white rounded-md font-semibold">
-                     {localStorage.getItem("alert")}
-                  </div>
+                  <div className="alert bg-green-500 p-3 mt-1 text-white rounded-md font-semibold">{localStorage.getItem("alert")}</div>
                </div>
             )}
-
 
             <div className="p-6 text-lg">
                <div className="edit-profile bg-white rounded-md border border-neutral-200">
                   <div className="py-2 px-4 border-b border-b-neutral-200 flex justify-between">
                      <p>
-                        <i class="bx-fw bx bxs-folder text-base -translate-y-1.5"></i>
+                        <i className="bx-fw bx bxs-folder text-base -translate-y-1.5"></i>
                         <strong>All Submenu</strong>
                      </p>
-                     <button className="bg-green-500 hover:bg-green-600 duration-100 text-white text-base font-semibold rounded-md px-4" onClick={() => setPopup(!popup)}>Add New</button>
+                     <button className="bg-green-500 hover:bg-green-600 duration-100 text-white text-base font-semibold rounded-md px-4" onClick={() => setPopup(!popup)}>
+                        Add New
+                     </button>
                   </div>
                   <div className="p-4">
                      <table className="table-auto border grid rounded-md overflow-auto">
@@ -146,8 +151,12 @@ const SubmenuManagement = () => {
                                              <td className="p-2 text-center border-x border-x-neutral-200 truncate">{icon}</td>
                                              <td className="p-2 text-center border-x border-x-neutral-200 truncate">{link}</td>
                                              <td className="p-2 text-center font-medium flex flex-col md:flex-row gap-1 justify-center truncate">
-                                                <Link className="py-0 px-1 md:px-3 rounded-md bg-green-500 hover:bg-green-600 duration-100 text-white" onClick={() => handleEdit(menu._id, _id)}>edit</Link>
-                                                <Link className="py-0 px-1 md:px-3 rounded-md bg-red-500 hover:bg-red-600 duration-100 text-white" onClick={() => handleDelete(menu._id, _id)}>delete</Link>
+                                                <Link className="py-0 px-1 md:px-3 rounded-md bg-green-500 hover:bg-green-600 duration-100 text-white" onClick={() => handleEdit(menu._id, _id)}>
+                                                   edit
+                                                </Link>
+                                                <Link className="py-0 px-1 md:px-3 rounded-md bg-red-500 hover:bg-red-600 duration-100 text-white" onClick={() => handleDelete(menu._id, _id)}>
+                                                   delete
+                                                </Link>
                                              </td>
                                           </tr>
                                        );
@@ -183,12 +192,19 @@ const SubmenuManagement = () => {
                            required
                         />
                      </div>
-                     <select className="w-full py-1.5 px-3 border border-neutral-400 rounded-md text-sm focus:border-green-300 focus:outline-none focus:ring focus:ring-2 focus:ring-green-300" onChange={(e) => setMenu(e.target.value)} value={menu} required>
+                     <select
+                        className="w-full py-1.5 px-3 border border-neutral-400 rounded-md text-sm focus:border-green-300 focus:outline-none focus:ring focus:ring-2 focus:ring-green-300"
+                        onChange={(e) => setMenu(e.target.defaultValue)}
+                        value={menu}
+                        required
+                     >
                         <option selected>--- Select Menu Option ---</option>
-                        {menus.map(({_id, name}) => {
+                        {menus.map(({ _id, name }) => {
                            return (
-                              <option key={_id} value={name}>{name}</option>
-                           )
+                              <option key={_id} value={name}>
+                                 {name}
+                              </option>
+                           );
                         })}
                      </select>
                      <div className="my-2">
@@ -211,10 +227,10 @@ const SubmenuManagement = () => {
                            required
                         />
                      </div>
-                     
+
                      <div className="my-2 mb-0">
                         <button type="submit" className="block w-full bg-green-500 hover:bg-green-600 duration-100 font-semibold py-1 rounded-md text-white">
-                        {reqMethod === "GET" ? "Add" : "Update"}
+                           {reqMethod === "GET" ? "Add" : "Update"}
                         </button>
                      </div>
                   </form>

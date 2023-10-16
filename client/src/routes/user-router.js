@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 
 import Layout from "../views/layouts/user";
-import Dashboard from "../views/admin/Dashboard";
+import Dashboard from "../views/user/Dashboard";
 import NotFound from "../views/errors/NotFound";
-import Profile from "../views/admin/Profile";
-import EditProfile from "../views/admin/EditProfile";
-import MenuManagement from "../views/admin/menu/MenuManagement";
-import SubmenuManagement from "../views/admin/menu/SubmenuManagement";
+import Profile from "../views/user/Profile";
+import EditProfile from "../views/user/EditProfile";
+import MenuManagement from "../views/user/menu/MenuManagement";
+import SubmenuManagement from "../views/user/menu/SubmenuManagement";
 
 const UserRouter = () => {
    return (

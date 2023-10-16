@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { user } = require("../controllers");
 const { upload } = require("../utils/uploadFile");
-const { editUserValidation } = require("../utils/validation");
+const { editUserValidation, changePasswordValidation } = require("../utils/validation");
 
 // GET
 router.get("/cart/:_id", user.getCartByUserId);
@@ -22,5 +22,6 @@ router.patch("/edit/with_image/:_id", upload.single("image"), user.editProfileWi
 router.patch("/edit/without_image/:_id", editUserValidation, user.editProfileWithoutImage);
 router.patch("/updatemenu/:_id", user.updateUserMenu);
 router.patch("/updatesubmenu/:_id", user.updateSubmenu);
+router.patch("/changepassword/:_id", changePasswordValidation, user.changePassword);
 
 module.exports = router;

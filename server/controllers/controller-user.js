@@ -4,6 +4,7 @@ const Menu = require("../models/model-menu");
 const { default: mongoose } = require("mongoose");
 const fs = require("fs");
 const { removeFile } = require("../utils/removeFile");
+const { passwordHash } = require("../utils/hash");
 
 const getCartByUserId = async (req, res) => {
    const { _id } = req.params;
@@ -166,7 +167,7 @@ const editProfileWithoutImage = async (req, res) => {
 
    try {
       const edit = await User.findOneAndUpdate({ _id }, { $set: { name, email } });
-      userInfo(edit, res);
+      userInfo(edit, res, "Edit Profile");
    } catch (err) {
       console.log("error", err);
    }
@@ -185,15 +186,29 @@ const editProfileWithImage = async (req, res) => {
          removeFile(image);
       }
       const edit = await User.findOneAndUpdate({ _id }, { $set: { name, email, image: filename } });
-      userInfo(edit, res);
+      userInfo(edit, res, "Edit Profile");
    } catch (err) {
-      console.log("editProfile:", err);
+      console.log("error:", err);
    }
 };
 
-const userInfo = async ({ _id }, res) => {
+const userInfo = async ({ _id }, res, msg) => {
    const user = await User.findOne({ _id });
-   response(200, "Successfully! Edit Profile", res, user);
+   response(200, `Successfully! ${msg}`, res, user);
+};
+
+const changePassword = async (req, res) => {
+   const { _id } = req.params;
+   const { newPass } = req.body;
+
+   const password = passwordHash(newPass);
+   console.log(password);
+   try {
+      const user = await User.findOneAndUpdate({ _id }, { $set: { password } });
+      userInfo(user, res, "Change Password");
+   } catch (err) {
+      console.log("error:", err);
+   }
 };
 
 module.exports = {
@@ -212,4 +227,5 @@ module.exports = {
    checkUserAccess,
    editProfileWithImage,
    editProfileWithoutImage,
+   changePassword,
 };

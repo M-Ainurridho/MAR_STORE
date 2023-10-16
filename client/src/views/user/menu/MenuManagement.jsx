@@ -213,9 +213,9 @@ const MenuManagement = () => {
                      </div>
                      <div className="my-2">
                         <span>User Access?</span>
-                        {acc.map((a) => {
+                        {acc.map((a, i) => {
                            return (
-                              <label className="mx-2">
+                              <label key={i} className="mx-2">
                                  <input type="checkbox" className="checkbox-user-access border rounded-lg translate-y-0.5 p-5 inline-block hover:ring-1 hover:ring-green-500 hover:rounded-md" value={a} onClick={handleCheckbox} />
                                  <span className="ms-1 inline-block">{a}</span>
                               </label>

@@ -23,12 +23,12 @@ const Navbar = () => {
             {/* Smartphone */}
             {!isOpen ? (
                <div className="btn-collapse md:hidden h-full w-16 flex justify-center items-center" onClick={() => setIsOpen(!isOpen)}>
-                  <i class="bx bx-menu text-3xl cursor-pointer"></i>
+                  <i className="bx bx-menu text-3xl cursor-pointer"></i>
                </div>
             ) : (
                <>
                   <div className="btn-collapse md:hidden bg-green-500 h-full w-16 flex justify-center items-center" onClick={() => setIsOpen(!isOpen)}>
-                     <i class="bx bx-x text-4xl text-white cursor-pointer"></i>
+                     <i className="bx bx-x text-4xl text-white cursor-pointer"></i>
                   </div>
 
                   <div className="navbar-collapse md:hidden bg-green-500 fixed left-0 right-10 bottom-0 top-screen-13 z-10">

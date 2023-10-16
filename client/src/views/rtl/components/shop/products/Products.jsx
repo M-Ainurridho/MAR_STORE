@@ -13,7 +13,6 @@ const Products = () => {
 
    const fetchAllProducts = async () => {
       const { data } = await axios.get("http://localhost:3000/product");
-      console.log(data)
       setProducts(data.payload);
       setLoading(false);
    };

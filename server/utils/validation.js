@@ -2,6 +2,7 @@ const { validationResult, body } = require("express-validator");
 const { response } = require("../response");
 const jwt = require("jsonwebtoken");
 const User = require("../models/model-user");
+const { passwordVerify } = require("./hash");
 
 module.exports.signupValidation = [
    body("name").trim().notEmpty().withMessage("Require input field"),
@@ -31,22 +32,8 @@ module.exports.signupValidation = [
 ];
 
 module.exports.signinValidation = [
-   body("email").trim().notEmpty().withMessage("Require input field"),
+   body("email").trim().notEmpty().withMessage("Require input field").isEmail().withMessage("Not a valid e-mail address"),
    body("password").trim().notEmpty().withMessage("Require input field"),
-   (req, res, next) => {
-      const result = validationResult(req);
-
-      if (!result.isEmpty()) {
-         return response(402, "Error!", res, result.array());
-      }
-
-      next();
-   },
-];
-
-module.exports.editUserValidation = [
-   body("name").trim().notEmpty().withMessage("Require input field"),
-   body("email").trim().notEmpty().withMessage("Require input field"),
    (req, res, next) => {
       const result = validationResult(req);
 
@@ -70,3 +57,47 @@ module.exports.tokenValidation = (req, res, next) => {
       });
    }
 };
+
+module.exports.editUserValidation = [
+   body("name").trim().notEmpty().withMessage("Require input field"),
+   body("email").trim().notEmpty().withMessage("Require input field"),
+   (req, res, next) => {
+      const result = validationResult(req);
+
+      if (!result.isEmpty()) {
+         return response(402, "Error!", res, result.array());
+      }
+
+      next();
+   },
+];
+
+module.exports.changePasswordValidation = [
+   body("current")
+      .trim()
+      .notEmpty()
+      .withMessage("Require input field")
+      .custom(async (value, { req }) => {
+         const user = await User.findOne({ _id: req.params._id });
+         if (!passwordVerify(value, user.password)) throw new Error("Current password is wrong");
+      }),
+   body("newPass").trim().notEmpty().withMessage("Require input field").isLength({ min: 3 }).withMessage("Password too short"),
+   body("confirm")
+      .trim()
+      .notEmpty()
+      .withMessage("Require input field")
+      .custom((value, { req }) => {
+         if (value !== req.body.newPass) throw new Error("Password isn't match");
+
+         return true;
+      }),
+   (req, res, next) => {
+      const result = validationResult(req);
+
+      if (!result.isEmpty()) {
+         return response(402, "Error!", res, result.array());
+      }
+
+      next();
+   },
+];
