@@ -36,7 +36,7 @@ const UserRouter = () => {
             }
          ></Route>
          <Route
-            path="/user/edit"
+            path="/user/profile/edit"
             element={
                <Layout>
                   <EditProfile />

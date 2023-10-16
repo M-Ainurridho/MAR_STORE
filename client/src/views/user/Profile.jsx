@@ -23,7 +23,7 @@ const Profile = () => {
                      <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">{name}</h3>
                      <p className="text-sm md:text-base">{email}</p>
                   </div>
-                  <Link to="/user/edit" className="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white duration-100 py-2 px-4 rounded-md font-medium">Edit Profile</Link>
+                  <Link to="/user/profile/edit" className="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white duration-100 py-2 px-4 rounded-md font-medium">Edit Profile</Link>
                </div>
             </div>
          </div>
