@@ -60,7 +60,8 @@ module.exports.tokenValidation = (req, res, next) => {
 
 module.exports.editUserValidation = [
    body("name").trim().notEmpty().withMessage("Require input field"),
-   body("email").trim().notEmpty().withMessage("Require input field"),
+   body("email").trim().notEmpty().withMessage("Require input field").isEmail()
+   .withMessage("Not a valid e-mail address"),
    (req, res, next) => {
       const result = validationResult(req);
 
@@ -73,7 +74,7 @@ module.exports.editUserValidation = [
 ];
 
 module.exports.changePasswordValidation = [
-   body("current")
+   body("oldPassword")
       .trim()
       .notEmpty()
       .withMessage("Require input field")
@@ -82,7 +83,7 @@ module.exports.changePasswordValidation = [
          if (!passwordVerify(value, user.password)) throw new Error("Current password is wrong");
       }),
    body("newPass").trim().notEmpty().withMessage("Require input field").isLength({ min: 3 }).withMessage("Password too short"),
-   body("confirm")
+   body("confirmPass")
       .trim()
       .notEmpty()
       .withMessage("Require input field")

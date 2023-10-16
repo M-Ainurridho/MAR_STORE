@@ -104,7 +104,7 @@ const updateUserMenu = async (req, res) => {
 
 const addNewSubmenu = async (req, res) => {
    const { submenu, menu, icon, link } = req.body;
-
+   console.log({ submenu, menu, icon, link })
    try {
       const addSubmenu = await Menu.findOneAndUpdate({ name: menu }, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } } });
       response(200, `Successfully! Add New Submenu`, res, addSubmenu);

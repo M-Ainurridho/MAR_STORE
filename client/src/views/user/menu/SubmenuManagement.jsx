@@ -4,7 +4,7 @@ import Settings from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { deleteMenu, newMenu, updateMenu } from "../../../redux/reducers";
+import { currentSubmenu, deleteSubmenu, newMenu, updateMenu } from "../../../redux/reducers";
 
 const SubmenuManagement = () => {
    Settings("Submenu Management", "admin");
@@ -28,10 +28,7 @@ const SubmenuManagement = () => {
                setAlert(false);
             }, 3000);
          }
-         setReqMethod("GET");
-         fetchMenu();
-         setSubmenu("");
-         setMenu("");
+         setReqMethod("GET"); fetchMenu(); setSubmenu(""); setMenu("");
          setIcon("");
          setLink("");
       }
@@ -53,7 +50,7 @@ const SubmenuManagement = () => {
          try {
             const response = await axios.post("http://localhost:3000/user/addsubmenu", { submenu, menu, icon, link });
             localStorage.setItem("alert", `${response.data.message}`);
-            dispatch(newMenu(submenu));
+            dispatch(currentSubmenu(submenu));
          } catch (err) {
             console.log("error: ", err);
          }
@@ -95,7 +92,7 @@ const SubmenuManagement = () => {
       try {
          const response = await axios.delete("http://localhost:3000/user/deletesubmenu", { data: { menuId, _id, submenu } });
          localStorage.setItem("alert", response.data.message);
-         dispatch(deleteMenu());
+         dispatch(deleteSubmenu());
       } catch (err) {
          console.log("error: ", err);
       }
@@ -106,7 +103,7 @@ const SubmenuManagement = () => {
    return (
       <>
          <section id="submenu-management">
-            <CrumbNTitle>
+            <CrumbNTitle breadcrumbs={"Menu"}>
                <strong>Submenu Management</strong>
             </CrumbNTitle>
 
@@ -194,7 +191,7 @@ const SubmenuManagement = () => {
                      </div>
                      <select
                         className="w-full py-1.5 px-3 border border-neutral-400 rounded-md text-sm focus:border-green-300 focus:outline-none focus:ring focus:ring-2 focus:ring-green-300"
-                        onChange={(e) => setMenu(e.target.defaultValue)}
+                        onChange={(e) => setMenu(e.target.value)}
                         value={menu}
                         required
                      >

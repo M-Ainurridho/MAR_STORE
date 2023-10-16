@@ -120,7 +120,7 @@ const MenuManagement = () => {
    return (
       <>
          <section id="menu-management">
-            <CrumbNTitle>
+            <CrumbNTitle breadcrumbs={"Menu"}>
                <strong>Menu Management</strong>
             </CrumbNTitle>
 

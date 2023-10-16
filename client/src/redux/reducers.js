@@ -104,6 +104,10 @@ export const userMenuReducer = createSlice({
       currentSubmenu: (state, action) => {
          state.currentSubmenu = action.payload;
       },
+      
+      deleteSubmenu: (state) => {
+         state.currentSubmenu = "";
+      },
    },
 });
 
@@ -111,4 +115,4 @@ export const { onPageChange } = pageReducer.actions;
 export const { inputSearch } = searchReducer.actions;
 export const { categoryChange, clearCategoryMenu, addItemToCart, overwrite } = shopReducer.actions;
 export const { signIn, signOut, editDataUser, defaultImage } = userReducer.actions;
-export const { newMenu, updateMenu, deleteMenu, currentSubmenu } = userMenuReducer.actions;
+export const { newMenu, updateMenu, deleteMenu, currentSubmenu, deleteSubmenu } = userMenuReducer.actions;

@@ -11,7 +11,7 @@ const Profile = () => {
 
    return (
       <section id="profile">
-         <CrumbNTitle>
+         <CrumbNTitle breadcrumbs={"User"}>
             <strong>Profile</strong>
          </CrumbNTitle>
          <div className="member-detail p-6">

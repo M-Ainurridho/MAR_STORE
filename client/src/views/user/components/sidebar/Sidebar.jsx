@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Sidebar = ({ isCollapse, setCollapse }) => {
    const navigate = useNavigate();
-   const menu = useSelector((state) => state.userMenu.name);
+   const {name, currentSubmenu} = useSelector((state) => state.userMenu);
    const { innerWidth } = window;
    const { data } = useSelector((state) => state.user);
    const [menus, setMenus] = useState([]);
@@ -19,7 +19,7 @@ const Sidebar = ({ isCollapse, setCollapse }) => {
    useEffect(() => {
       fetchMenu();
       innerWidth < 1024 && innerWidth >= 768 && setCollapse(!isCollapse);
-   }, [menu]);
+   }, [name, currentSubmenu]);
 
    return (
       <>
