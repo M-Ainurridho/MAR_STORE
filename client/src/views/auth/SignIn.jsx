@@ -6,6 +6,7 @@ import Settings from "../../utils/settings";
 import AuthIntro from "./components/AuthIntro";
 import AuthInput from "./components/AuthInput";
 import BtnSignUp from "./components/BtnSignUp";
+import LoadingPage from "../../components/loadings/LoadingPage"
 import axios from "axios";
 
 const SignIn = () => {
@@ -18,6 +19,7 @@ const SignIn = () => {
    const [password, setPassword] = useState("");
    const [errors, setErrors] = useState([]);
    const [alert, setAlert] = useState(false);
+   const [loading, setLoading] = useState(false)
 
    const onHandleChange = (field, value) => {
       field === "email" ? setEmail(value) : setPassword(value);
@@ -26,6 +28,7 @@ const SignIn = () => {
    const onHandleSubmit = async (e) => {
       e.preventDefault();
 
+      setLoading(!loading)
       try {
          const res = await axios.post("http://localhost:3000/auth/signin", { email, password });
 
@@ -33,6 +36,7 @@ const SignIn = () => {
          await tokenValidation();
       } catch (err) {
          setErrors(err.response.data.errors);
+         setLoading(!loading)
       }
    };
 
@@ -53,6 +57,8 @@ const SignIn = () => {
             }
          } catch (err) {
             delete axios.defaults.headers.common["auth-token"];
+         } finally {
+            setLoading(!loading)
          }
       }
    };
@@ -68,7 +74,8 @@ const SignIn = () => {
    }, []);
 
    return (
-      <section id="sign-in" className="h-screen w-full flex">
+      <>
+         {loading ? <LoadingPage /> : <section id="sign-in" className="h-screen w-full flex">
          <div className="relative flex flex-col justify-center basis-full md:basis-2/3 px-16 h-full ">
             <div className="absolute left-4 md:left-8 lg:left-16 top-5 font-bold mb-10">
                <p className="max-w-max cursor-pointer" onClick={() => navigate("/")}>
@@ -118,7 +125,8 @@ const SignIn = () => {
             <p className="my-6 md:text-base lg:text-lg text-center">Enter your personal details and start journey with us</p>
             <BtnSignUp />
          </AuthIntro>
-      </section>
+      </section>}
+      </>
    );
 };
 

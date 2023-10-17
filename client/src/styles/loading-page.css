@@ -1,0 +1,11 @@
+.bullet1 {
+    animation: bullet 1s ease-in infinite;
+}
+
+.bullet2 {
+    animation: bullet 1s .25s ease-in infinite;
+}
+
+.bullet3 {
+    animation: bullet 1s .5s ease-in infinite;
+}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CardProduct from "./CardProduct";
 import ItemNotFound from "../../../../../components/alerts/ItemNotFound";
-import LoadingCircle from "../../../../../components/loadings/LoadingCircle";
+import LoadingSpin from "../../../../../components/loadings/LoadingSpin";
 import axios from "axios";
 
 const Products = () => {
@@ -53,7 +53,7 @@ const Products = () => {
    return (
       <section id="products" className="basis-full md:basis-3/4 my-5">
          {loading ? (
-            <LoadingCircle />
+            <LoadingSpin />
          ) : (
             <>
                {search && <h1 className="font-bold text-2xl mb-4">Searched for "{search}"</h1>}
