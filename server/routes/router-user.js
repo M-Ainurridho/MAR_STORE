@@ -4,6 +4,7 @@ const { upload } = require("../utils/uploadFile");
 const { editUserValidation, changePasswordValidation } = require("../utils/validation");
 
 // GET
+router.get("/", user.getAllUser);
 router.get("/cart/:_id", user.getCartByUserId);
 router.get("/menu", user.getUserMenu);
 router.get("/menu/search?", user.searchRequest);

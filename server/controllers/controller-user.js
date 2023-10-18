@@ -1,10 +1,19 @@
 const { response } = require("../response");
-const User = require("../models/model-user");
-const Menu = require("../models/model-menu");
-const { default: mongoose } = require("mongoose");
-const fs = require("fs");
 const { removeFile } = require("../utils/removeFile");
 const { passwordHash } = require("../utils/hash");
+const { default: mongoose } = require("mongoose");
+const User = require("../models/model-user");
+const Menu = require("../models/model-menu");
+const fs = require("fs");
+
+const getAllUser = async (req, res) => {
+   try {
+      const users = await User.find();
+      response(200, "Get All Users", res, users)
+   } catch (err) {
+      console.log("error: ", err);
+   }
+}
 
 const getCartByUserId = async (req, res) => {
    const { _id } = req.params;
@@ -211,6 +220,7 @@ const changePassword = async (req, res) => {
 };
 
 module.exports = {
+   getAllUser,
    getCartByUserId,
    getUserMenu,
    searchRequest,
