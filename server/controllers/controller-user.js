@@ -26,22 +26,6 @@ const getCartByUserId = async (req, res) => {
    }
 };
 
-const addNewCart = async (req, res) => {
-   const { user_id, _id, name, brand, image, price, quantity, discount } = req.body;
-
-   try {
-      const duplicate = await User.findOne({ _id: user_id, "carts._id": _id });
-
-      if (duplicate) return response(303, "Existing Data", res, duplicate);
-
-      const cart = await User.findOneAndUpdate({ _id: user_id }, { $push: { carts: { _id, name, brand, image, price, quantity, discount } } });
-      console.log(cart)
-      response(200, "Successfully! Add New Item to Cart", res, { user_id, _id, name, brand, image, price, quantity, discount });
-   } catch (err) {
-      console.log("error: ", err);
-   }
-};
-
 const deleteCartByUserId = async (req, res) => {
    const { user_id, _id } = req.body;
 
@@ -226,6 +210,33 @@ const changePassword = async (req, res) => {
    }
 };
 
+const addNewCart = async (req, res) => {
+   const { user_id, _id, name, brand, image, price, quantity, discount } = req.body;
+
+   try {
+      const duplicate = await User.findOne({ _id: user_id, "carts._id": _id });
+
+      if (duplicate) return response(303, "Existing Data", res, duplicate);
+
+      const cart = await User.findOneAndUpdate({ _id: user_id }, { $push: { carts: { _id, name, brand, image, price, quantity, discount } } });
+      response(200, "Successfully! Add New Item to Cart", res, { user_id, _id, name, brand, image, price, quantity, discount });
+   } catch (err) {
+      console.log("error: ", err);
+   }
+};
+
+const updateCartQuantity = async (req, res) => {
+   const { _id } = req.params;
+   const { quantity } = req.body;
+
+   try {
+      const cart = await User.findOneAndUpdate({ "carts._id": _id }, { $set: { "carts.$.quantity": quantity } });
+      response(200, "Update Cart Quantity", res, { product_id: _id, quantity });
+   } catch (err) {
+      console.log("error: ", err);
+   }
+};
+
 module.exports = {
    getAllUser,
    getCartByUserId,
@@ -244,4 +255,5 @@ module.exports = {
    editProfileWithImage,
    editProfileWithoutImage,
    changePassword,
+   updateCartQuantity,
 };

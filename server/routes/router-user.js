@@ -24,5 +24,6 @@ router.patch("/edit/without_image/:_id", editUserValidation, user.editProfileWit
 router.patch("/updatemenu/:_id", user.updateUserMenu);
 router.patch("/updatesubmenu/:_id", user.updateSubmenu);
 router.patch("/changepassword/:_id", changePasswordValidation, user.changePassword);
+router.patch("/cart/:_id", user.updateCartQuantity);
 
 module.exports = router;
