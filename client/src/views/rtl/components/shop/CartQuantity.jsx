@@ -22,7 +22,7 @@ const CartQuantity = ({ _id, quantity, quantityChange, update }) => {
          user_id: user._id,
          _id,
       };
-      await axios.delete("http://localhost:3000/user/cart", { data: payload });
+      await axios.delete("http://localhost:3000/user/cart/", { data: payload });
       update();
    };
 

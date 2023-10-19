@@ -31,7 +31,7 @@ export const shopReducer = createSlice({
    initialState: {
       category: "",
       sub_category: "",
-      cart: [],
+      cart: {},
    },
    reducers: {
       categoryChange: (state, action) => {
@@ -44,11 +44,7 @@ export const shopReducer = createSlice({
          state.sub_category = "";
       },
 
-      addItemToCart: (state, action) => {
-         state.cart = [...state.cart, action.payload];
-      },
-
-      overwrite: (state, action) => {
+      newCart: (state, action) => {
          state.cart = action.payload;
       },
    },
@@ -130,6 +126,6 @@ export const alertReducer = createSlice({
 export const { onPageChange } = pageReducer.actions;
 export const { inputSearch } = searchReducer.actions;
 export const { alertOn, alertOff } = alertReducer.actions;
-export const { categoryChange, clearCategoryMenu, addItemToCart, overwrite } = shopReducer.actions;
+export const { categoryChange, clearCategoryMenu, newCart } = shopReducer.actions;
 export const { signIn, signOut, editDataUser, defaultImage } = userReducer.actions;
 export const { newMenu, updateMenu, deleteMenu, currentSubmenu, deleteSubmenu } = userMenuReducer.actions;

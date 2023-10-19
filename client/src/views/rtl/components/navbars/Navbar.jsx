@@ -1,21 +1,37 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BtnSignIn from "../buttons/BtnSignIn";
 import InputSearch from "../forms/search";
+import axios from "axios";
 
 const Navbar = () => {
    const navigate = useNavigate();
 
    const pages = useSelector((state) => state.pages);
    const { authentication, data } = useSelector((state) => state.user);
+   const { cart } = useSelector((state) => state.shop);
 
    const [dropdown, setDropdown] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
+   const [carts, setCarts] = useState([]);
 
    const userRole = () => {
       data.role === "member" ? navigate("/member") : navigate("/admin");
    };
+
+   const fetchCartsCount = async () => {
+      try {
+         const response = await axios.get(`http://localhost:3000/user/cart/${data._id}`);
+         setCarts(response.data.payload);
+      } catch (err) {
+         console.log("error:", err);
+      }
+   };
+
+   useEffect(() => {
+      fetchCartsCount();
+   }, [cart]);
 
    return (
       <>
@@ -88,12 +104,14 @@ const Navbar = () => {
 
                <div className="shopping-cart ms-3 relative cursor-pointer" onClick={() => navigate("/shop/cart")}>
                   <i className="bx bx-cart text-2xl"></i>
+                  {authentication && (
+                     <span className="absolute top-0 -right-1.5 bg-red-500 text-white rounded-full w-4 h-4 text-center leading-4 font-bold" style={{ fontSize: "10px" }}>
+                        {carts.length > 100 ? "99+" : carts.length}
+                     </span>
+                  )}
                </div>
                {authentication ? (
                   <>
-                     {/* <div className="shopping-cart ms-3 relative cursor-pointer" onClick={() => navigate("/shop/cart")}>
-                        <i className="bx bx-cart text-2xl"></i>
-                     </div> */}
                      <div className="user-img relative pb-2 mt-2 mx-3 md:me-0" onMouseOver={() => setDropdown(true)} onMouseOut={() => setDropdown(false)}>
                         <img src={require(`../../../../assets/images/avatars/${data.image}`)} alt="" className="w-16 md:w-20 rounded-full object-cover shadow-lg" />
                         {dropdown && (
