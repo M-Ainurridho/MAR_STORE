@@ -9,11 +9,11 @@ const fs = require("fs");
 const getAllUser = async (req, res) => {
    try {
       const users = await User.find();
-      response(200, "Get All Users", res, users)
+      response(200, "Get All Users", res, users);
    } catch (err) {
       console.log("error: ", err);
    }
-}
+};
 
 const getCartByUserId = async (req, res) => {
    const { _id } = req.params;
@@ -29,10 +29,17 @@ const getCartByUserId = async (req, res) => {
 const addNewCart = async (req, res) => {
    const { user_id, _id, name, brand, image, price, quantity, discount } = req.body;
 
-   const duplicate = await User.findOne({ _id: user_id, "carts._id": _id });
+   try {
+      const duplicate = await User.findOne({ _id: user_id, "carts._id": _id });
 
-   if (duplicate) return response(303, "Existing Data", res, duplicate);
-   await User.findOneAndUpdate({ _id: user_id }, { $push: { carts: { _id, name, brand, image, price, quantity, discount } } });
+      if (duplicate) return response(303, "Existing Data", res, duplicate);
+
+      const cart = await User.findOneAndUpdate({ _id: user_id }, { $push: { carts: { _id, name, brand, image, price, quantity, discount } } });
+      console.log(cart)
+      response(200, "Successfully! Add New Item to Cart", res, { user_id, _id, name, brand, image, price, quantity, discount });
+   } catch (err) {
+      console.log("error: ", err);
+   }
 };
 
 const deleteCartByUserId = async (req, res) => {
@@ -113,7 +120,7 @@ const updateUserMenu = async (req, res) => {
 
 const addNewSubmenu = async (req, res) => {
    const { submenu, menu, icon, link } = req.body;
-   
+
    try {
       const addSubmenu = await Menu.findOneAndUpdate({ name: menu }, { $push: { submenu: { _id: new mongoose.Types.ObjectId(), name: submenu, icon, link } } });
       response(200, `Successfully! Add New Submenu`, res, addSubmenu);
