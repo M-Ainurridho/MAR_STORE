@@ -1,22 +1,25 @@
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useHref, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Settings, { convertPrice } from "../utils/settings";
-import CartQuantity from "../components/shop/Cart/CartQuantity";
+import Settings, { convertPrice } from "../../../utils/settings";
+import CartQuantity from "../components/shop/CartQuantity";
 import axios from "axios";
+import { alertOff, alertOn } from "../../../redux/reducers";
 
 const Cart = () => {
    Settings("Cart");
 
    const navigate = useNavigate();
+   const dispatch = useDispatch();
+   const href = useHref();
    const { authentication, data } = useSelector((state) => state.user);
 
    const [carts, setCarts] = useState([]);
 
-   const fetchCartData = async () => {
+   const fetchCart = async () => {
       try {
          const res = await axios.get(`http://localhost:3000/user/cart/${data._id}`);
-         setCarts(res.data.payload);
+         console.log(res.data.payload);
       } catch (err) {
          console.log("error: ", err);
       }
@@ -33,15 +36,16 @@ const Cart = () => {
       setCarts(updateQuantity);
    };
 
-   const updateAfterRemove = () => {
-      fetchCartData();
-   };
+   // const updateAfterRemove = () => {
+   //    fetchCartData();
+   // };
 
    useEffect(() => {
       if (!authentication) {
-         navigate("/auth/signin");
+         dispatch(alertOn());
+         navigate("/")
       } else {
-         fetchCartData();
+         fetchCart();
       }
 
       // const subtotalPrice = carts.reduce((total, value) => total + value.price * value.quantity, 0);
@@ -52,14 +56,14 @@ const Cart = () => {
 
    return (
       <>
-         <section id="cart" className="px-16 my-5 flex gap-x-3">
+         {/* <section id="cart" className="px-16 my-5 flex gap-x-3">
             <div className="cart-left basis-3/5 border">
                <h1 className="text-2xl font-bold mb-3">Cart</h1>
                {carts.map(({ _id, name, image, price, quantity, discount }) => {
                   return (
                      <div key={_id} className="cart-items flex border-t py-3">
                         <div className="relative">
-                           <img src={require(`../assets/images/products/${image[0]}`)} alt="" className="w-44 h-36 object-cover rounded-md" />
+                           <img src={require(`../../../assets/images/products/${image[0]}`)} alt="" className="w-44 h-36 object-cover rounded-md" />
                            {discount ? <div className="dicount bg-rose-600 absolute top-2.5 left-2 w-9 font-semibold text-xs text-white py-0.5 rounded-sm text-center">{discount}%</div> : null}
                         </div>
                         <div className="cart-body w-full flex items-center justify-between ml-3">
@@ -81,7 +85,7 @@ const Cart = () => {
                   );
                })}
             </div>
-         </section>
+         </section> */}
       </>
    );
 };

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { pageReducer, searchReducer, shopReducer, userReducer, userMenuReducer } from "./reducers";
+import { pageReducer, searchReducer, shopReducer, userReducer, userMenuReducer, alertReducer } from "./reducers";
 
 export const store = configureStore({
    reducer: {
@@ -8,5 +8,6 @@ export const store = configureStore({
       shop: shopReducer.reducer,
       user: userReducer.reducer,
       userMenu: userMenuReducer.reducer,
+      alert: alertReducer.reducer,
    },
 });

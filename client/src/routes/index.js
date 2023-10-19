@@ -15,7 +15,6 @@ const Router = () => {
          ) : href === "auth" ? (
             <AuthRouter />
          ) : (
-            //       href === "user" ? <MemberRouter /> :
             <RTL />
          )}
       </>

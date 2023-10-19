@@ -165,8 +165,14 @@ const MenuManagement = () => {
                                        })}
                                     </td>
                                     <td className="p-2 text-center font-medium flex gap-1 justify-center truncate">
-                                       <i  className="bx bxs-pencil flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer" onClick={() => handleEdit(menu._id)}></i>
-                                       <i  className="bx bxs-trash flex items-center px-1 rounded-md bg-red-500 hover:bg-red-600 hover:shadow-md hover:shadow-red-300 duration-100 text-white cursor-pointer" onClick={() => handleDelete(menu._id)}></i>
+                                       <i
+                                          className="bx bxs-pencil flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer"
+                                          onClick={() => handleEdit(menu._id)}
+                                       ></i>
+                                       <i
+                                          className="bx bxs-trash flex items-center px-1 rounded-md bg-red-500 hover:bg-red-600 hover:shadow-md hover:shadow-red-300 duration-100 text-white cursor-pointer"
+                                          onClick={() => handleDelete(menu._id)}
+                                       ></i>
                                     </td>
                                  </tr>
                               );

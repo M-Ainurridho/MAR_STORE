@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Layout from "../views/layouts/user";
 import Dashboard from "../views/user/Dashboard";
+import Customers from "../views/user/admin/Customers";
 import NotFound from "../views/errors/NotFound";
 import Profile from "../views/user/Profile";
 import EditProfile from "../views/user/EditProfile";
@@ -16,6 +17,14 @@ const UserRouter = () => {
             element={
                <Layout>
                   <Dashboard />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/admin/customers"
+            element={
+               <Layout>
+                  <Customers />
                </Layout>
             }
          ></Route>

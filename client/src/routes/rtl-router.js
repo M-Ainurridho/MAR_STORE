@@ -2,7 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "../views/layouts/rtl";
 import Home from "../views/rtl/index";
 import Shop from "../views/rtl/shop/Shop";
-import NotFound from "../views/errors/NotFound"
+import Cart from "../views/rtl/shop/Cart";
+import NotFound from "../views/errors/NotFound";
 
 const RTL = () => {
    return (
@@ -20,6 +21,14 @@ const RTL = () => {
             element={
                <Layout>
                   <Shop />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/shop/cart"
+            element={
+               <Layout>
+                  <Cart />
                </Layout>
             }
          ></Route>
