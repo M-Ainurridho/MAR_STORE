@@ -11,9 +11,7 @@ const Cart = () => {
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
-   const href = useHref();
    const { authentication, data } = useSelector((state) => state.user);
-
    const [carts, setCarts] = useState([]);
 
    const fetchCarts = async () => {
@@ -25,33 +23,22 @@ const Cart = () => {
       }
    };
 
-   const onQuantityChange = (_id, qty) => {
-      const updateQuantity = carts.map((cart) => {
-         if (cart._id === _id) {
-            cart.quantity = qty;
-         }
-         return cart;
-      });
-
-      setCarts(updateQuantity);
+   const updateQuantity = async (_id, quantity) => {
+      try {
+         const response = await axios.patch(`http://localhost:3000/user/cart/${_id}`, { user_id: data._id, quantity });
+         response.status === 200 && fetchCarts();
+      } catch (err) {
+         console.log("error: ", err);
+      }
    };
-
-   // const updateAfterRemove = () => {
-   //    fetchCartData();
-   // };
 
    useEffect(() => {
       if (!authentication) {
          dispatch(alertOn());
          navigate("/");
-      } else {
-         fetchCarts();
       }
 
-      // const subtotalPrice = carts.reduce((total, value) => total + value.price * value.quantity, 0);
-      // setSubtotal(subtotalPrice);
-      // const totalPrice = carts.reduce((total, value) => total + value.price * 2 - (value.discount / 100) * value.price * 2, 0);
-      // // console.log(convertPrice(totalPrice));
+      fetchCarts();
    }, []);
 
    return (
@@ -68,12 +55,12 @@ const Cart = () => {
                         </div>
                         <div className="cart-body w-full flex items-center justify-between ml-3">
                            <h3 className="cart-name text-lg font-medium">{name}</h3>
-                           <CartQuantity _id={_id} quantity={quantity} quantityChange={(_id, qty) => onQuantityChange(_id, qty)}  />
+                           <CartQuantity _id={_id} qty={quantity} update={(_id, quantity) => updateQuantity(_id, quantity)} />
 
                            <div className="cart-price font-semibold text-lg">
                               {discount ? (
                                  <>
-                                    <p>{convertPrice(price, discount)}</p>
+                                    <p>{convertPrice(price, discount, quantity)}</p>
                                     <del className="font-light text-base">{convertPrice(price)}</del>
                                  </>
                               ) : (

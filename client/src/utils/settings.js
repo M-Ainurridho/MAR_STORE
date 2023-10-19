@@ -4,8 +4,8 @@ import { useEffect } from "react";
 
 export const capitalize = (text) => {
    const firstWord = text.slice(0, 1).toUpperCase();
-   const slices = text.slice(1)
-   return firstWord + slices
+   const slices = text.slice(1);
+   return firstWord + slices;
 };
 
 const setTitle = (page, access) => {
@@ -21,18 +21,18 @@ const Settings = (name, access = "") => {
    }, []);
 };
 
-export const convertPrice = (price, discount = 0) => {
+export const convertPrice = (price, discount = 0, quantity = 1) => {
    let cost;
    if (discount) {
       cost = new Intl.NumberFormat("id-ID", {
          style: "currency",
          currency: "IDR",
-      }).format(price - (discount / 100) * price);
+      }).format(price * quantity - ((discount / 100) * (price * quantity)));
    } else {
       cost = new Intl.NumberFormat("id-ID", {
          style: "currency",
          currency: "IDR",
-      }).format(price);
+      }).format(price * quantity);
    }
 
    cost = cost.split(",");
