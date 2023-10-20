@@ -36,16 +36,16 @@ const Cart = () => {
       if (!authentication) {
          dispatch(alertOn());
          navigate("/");
+      } else {
+         fetchCarts();
       }
-
-      fetchCarts();
    }, []);
 
    return (
       <>
-         <section id="cart" className="px-16 my-5 flex gap-x-3">
-            <div className="cart-left basis-3/5">
-               <h1 className="text-2xl font-bold mb-3">Cart</h1>
+         <section id="cart" className="px-16 my-5 grid grid-cols-3 gap-x-4">
+            <div className="cart-left col-span-2 border">
+               <h3 className="text-2xl font-bold mb-3">Cart</h3>
                {carts.map(({ _id, name, image, price, quantity, discount }) => {
                   return (
                      <div key={_id} className="cart-items flex border-t py-3">
@@ -71,6 +71,36 @@ const Cart = () => {
                      </div>
                   );
                })}
+            </div>
+
+            <div className="checkout self-start p-3 font-medium border border-neutral-200 rounded-md shadow-md">
+               <h3 className="font-semibold mb-2">Delivery</h3>
+               <div className="ongkir bg-neutral-100 border border-neutral-300 inline-block rounded-md py-1 px-0.5 mb-2">
+                  <span className="ongkir1 bg-white px-2 py-1 rounded-md font-bold shadow-md">Free</span>
+                  <span className="ongkir2 px-2 py-1 font-bold">JNE: Rp. 9000</span>
+               </div>
+               <div className="text-sm text-neutral-500 mb-2">Delivery date: {new Date().toLocaleDateString()}</div>
+               <div className="border-y border-neutral-300 border-dotted py-3">
+                  <div className="flex justify-between font-semibold text-lg my-1">
+                     <h5>Subtotal</h5>
+                     <p>{convertPrice(carts.reduce((total, { price, quantity }) => total + price * quantity, 0))}</p>
+                  </div>
+                  <div className="flex justify-between text-neutral-500 text-sm my-1">
+                     <h5>Discount</h5>
+                     <p>{convertPrice(carts.reduce((total, { price, quantity, discount }) => total + (discount / 100) * (price * quantity), 0))}</p>
+                  </div>
+                  <div className="flex justify-between text-neutral-500 text-sm my-1">
+                     <h5>Delivery</h5>
+                     <p>Rp 0,00-</p>
+                  </div>
+               </div>
+               <div className=" py-3">
+                  <div className="flex justify-between font-semibold text-lg my-1">
+                     <h5>Total</h5>
+                     <p>{convertPrice(carts.reduce((total, { price, quantity, discount }) => total + (price * quantity - (discount / 100) * (price * quantity)), 0))}</p>
+                  </div>
+                  <button className="bg-green-500 hover:bg-green-600 duration-100 text-white w-full px-2 py-1 rounded-md font-semibold">Checkout</button>
+               </div>
             </div>
          </section>
       </>

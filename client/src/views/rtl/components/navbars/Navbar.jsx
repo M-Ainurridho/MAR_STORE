@@ -30,7 +30,7 @@ const Navbar = () => {
    };
 
    useEffect(() => {
-      fetchCartsCount();
+      authentication && fetchCartsCount();
    }, [cart]);
 
    return (

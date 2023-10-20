@@ -28,8 +28,8 @@ const CartQuantity = ({ _id, qty, update }) => {
                +
             </button>
          </div>
-         <p className="delete-cart my-1 text-neutral-600 hover:text-red-500 duration-200 cursor-pointer bg-red-300 inline-block">
-            <i className="bx bxs-trash-alt mx-0.5"></i> remove
+         <p className="delete-cart my-1 text-neutral-600 hover:text-red-500 duration-100 cursor-pointer inline-block">
+            <i className="bx bxs-trash-alt translate-y-0.5"></i> remove
          </p>
       </div>
    );
