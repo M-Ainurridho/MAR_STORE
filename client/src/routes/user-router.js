@@ -3,11 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "../views/layouts/user";
 import Dashboard from "../views/user/Dashboard";
 import Customers from "../views/user/admin/Customers";
-import NotFound from "../views/errors/NotFound";
-import Profile from "../views/user/Profile";
-import EditProfile from "../views/user/EditProfile";
 import MenuManagement from "../views/user/menu/MenuManagement";
 import SubmenuManagement from "../views/user/menu/SubmenuManagement";
+import NotFound from "../views/errors/NotFound";
+
+import Profile from "../views/user/Profile";
+import EditProfile from "../views/user/EditProfile";
+
+import Payments from "../views/user/member/Payments"
 
 const UserRouter = () => {
    return (
@@ -33,6 +36,14 @@ const UserRouter = () => {
             element={
                <Layout>
                   <Dashboard />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/member/payments"
+            element={
+               <Layout>
+                  <Payments />
                </Layout>
             }
          ></Route>

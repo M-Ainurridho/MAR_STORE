@@ -102,7 +102,7 @@ const Navbar = () => {
             <div className="navbar-end flex items-center basis-full md:basis-80">
                <InputSearch size={"full"} />
 
-               <div className="shopping-cart ms-3 relative cursor-pointer" onClick={() => navigate("/shop/cart")}>
+               <div className="shopping-cart ms-3 relative cursor-pointer" onClick={() => navigate("/cart")}>
                   <i className="bx bx-cart text-2xl"></i>
                   {authentication && (
                      <span className="absolute top-0 -right-1.5 bg-red-500 text-white rounded-full w-4 h-4 text-center leading-4 font-bold" style={{ fontSize: "10px" }}>

@@ -1,10 +1,10 @@
-import { useHref, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { alertOn } from "../../../redux/reducers";
 import Settings, { convertPrice } from "../../../utils/settings";
 import CartQuantity from "../components/shop/CartQuantity";
 import axios from "axios";
-import { alertOff, alertOn } from "../../../redux/reducers";
 
 const Cart = () => {
    Settings("Cart");
@@ -44,8 +44,8 @@ const Cart = () => {
    return (
       <>
          <section id="cart" className="px-16 my-5 grid grid-cols-3 gap-x-4">
-            <div className="cart-left col-span-2 border">
-               <h3 className="text-2xl font-bold mb-3">Cart</h3>
+            <div className="cart-left self-start col-span-2 px-3 py-2 border border-neutral-200 rounded-md shadow">
+               <h3 className="text-2xl font-bold mb-2">Cart</h3>
                {carts.map(({ _id, name, image, price, quantity, discount }) => {
                   return (
                      <div key={_id} className="cart-items flex border-t py-3">
@@ -99,7 +99,9 @@ const Cart = () => {
                      <h5>Total</h5>
                      <p>{convertPrice(carts.reduce((total, { price, quantity, discount }) => total + (price * quantity - (discount / 100) * (price * quantity)), 0))}</p>
                   </div>
-                  <button className="bg-green-500 hover:bg-green-600 duration-100 text-white w-full px-2 py-1 rounded-md font-semibold">Checkout</button>
+                  <button className="bg-green-500 hover:bg-green-600 duration-100 text-white w-full px-2 py-1 rounded-md font-semibold" onClick={() => navigate("/cart/checkout")}>
+                     Checkout
+                  </button>
                </div>
             </div>
          </section>

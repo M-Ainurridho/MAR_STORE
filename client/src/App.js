@@ -1,5 +1,5 @@
 import Router from "./routes/index";
-import "./App.css"
+import "./App.css";
 
 const App = () => {
    return <Router />;

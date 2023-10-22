@@ -4,7 +4,7 @@ import { newCart } from "../../../../redux/reducers";
 import Alert from "../../../../components/alerts/Alert";
 import axios from "axios";
 
-const BtnAddCart = ({ _id, name, brand, image, price, stock, discount }) => {
+const BtnAddCart = ({ _id, name, brand, images, price, stock, discount }) => {
    const { authentication, data } = useSelector((state) => state.user);
 
    const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const BtnAddCart = ({ _id, name, brand, image, price, stock, discount }) => {
          setIsLogin(false);
       } else {
          try {
-            const response = await axios.post("http://localhost:3000/user/addcart", { user_id: data._id, _id, name, brand, image, price, quantity: 1, discount });
+            const response = await axios.post("http://localhost:3000/user/addcart", { user_id: data._id, _id, name, brand, images, price, quantity: 1, discount });
             dispatch(newCart(response.data.payload));
          } catch {
             setExistCart(true);

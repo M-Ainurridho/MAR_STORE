@@ -3,7 +3,9 @@ import Layout from "../views/layouts/rtl";
 import Home from "../views/rtl/index";
 import Shop from "../views/rtl/shop/Shop";
 import Cart from "../views/rtl/shop/Cart";
+import Checkout from "../views/rtl/shop/Checkout";
 import NotFound from "../views/errors/NotFound";
+import ProductDetail from "../views/rtl/shop/products/Detail";
 
 const RTL = () => {
    return (
@@ -25,21 +27,29 @@ const RTL = () => {
             }
          ></Route>
          <Route
-            path="/shop/cart"
+            path="/cart"
             element={
                <Layout>
                   <Cart />
                </Layout>
             }
          ></Route>
-         {/* <Route
+         <Route
+            path="/cart/checkout"
+            element={
+               <Layout>
+                  <Checkout />
+               </Layout>
+            }
+         ></Route>
+         <Route
             path="/shop/detail/:_id"
             element={
-               <Navbar>
+               <Layout>
                   <ProductDetail />
-               </Navbar>
+               </Layout>
             }
-         ></Route> */}
+         ></Route>
          {/* 
          <Route
             path="/brands"

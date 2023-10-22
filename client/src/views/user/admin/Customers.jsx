@@ -52,7 +52,7 @@ const Customers = () => {
                                  <td className="p-2 text-center truncate">{name}</td>
                                  <td className="p-2 text-center truncate">{email}</td>
                                  <td className="p-2 text-center truncate">{capitalize(role)}</td>
-                                 <td className="p-2 text-center truncate">{created}</td>
+                                 <td className="p-2 text-center truncate">{new Date(created).toLocaleString()}</td>
                               </tr>
                            );
                         })}
