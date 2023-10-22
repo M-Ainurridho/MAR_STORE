@@ -44,7 +44,6 @@ const getProductById = async (req, res) => {
       }
    } catch (err) {
       console.log(err);
-      // return response(500, "Invalid Argument passed", res, err.value);
    }
 };
 
