@@ -1,8 +1,28 @@
-import Settings from "../../../utils/settings";
+import { useEffect, useState } from "react";
+import Settings, { convertPrice } from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
    Settings("Payments");
+
+   const { _id } = useSelector((state) => state.user.data);
+   const [payments, setPayments] = useState([]);
+   const [total, setTotal] = useState(null);
+
+   useEffect(() => {
+      fetchData();
+   }, []);
+
+   const fetchData = async () => {
+      try {
+         const response = await axios.get(`http://localhost:3000/user/payments/${_id}`);
+         setPayments(response.data.payload);
+      } catch (err) {
+         console.log("error: ", err);
+      }
+   };
 
    return (
       <section id="dashboard">
@@ -30,16 +50,24 @@ const Dashboard = () => {
                         </tr>
                      </thead>
                      <tbody>
-                        <tr className="grid grid-cols-4 text-base border-t border-t-neutral-200">
-                           <td className="p-2 text-center border-r border-r-neutral-200 truncate">#KODSDIHADAS</td>
-                           <td className="p-2 text-center truncate">RP 191.000.000</td>
-                           <td className="p-2 text-center border-x border-x-neutral-200 truncate">
-                              <span className="text-sm bg-yellow-400 font-semibold px-3 py-1 rounded-md">Menunggu Konfirmasi Pembayaran</span>
-                           </td>
-                           <td className="p-2 text-center font-medium flex gap-1 justify-center truncate">
-                              <i className="bx bxs-info-circle flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer"></i>
-                           </td>
-                        </tr>
+                        {payments.map(({ _id, paymentCode, paymentStatus, items }) => {
+                           return (
+                              <tr key={_id} className="grid grid-cols-4 text-base border-t border-t-neutral-200">
+                                 <td className="p-2 text-center border-r border-r-neutral-200 truncate">{paymentCode.toUpperCase()}</td>
+                                 <td className="p-2 text-center truncate">
+                                    {convertPrice(items.reduce((total, { price, quantity, discount }) => total + (price * quantity - (discount / 100) * (price * quantity)), 0))}
+                                 </td>
+                                 <td className="p-2 text-center border-x border-x-neutral-200 truncate">
+                                    <span className={`text-sm text-white ${paymentStatus === 1 ? "bg-neutral-400" : paymentStatus === 2 ? "bg-yellow-400" : "bg-green-500"} font-semibold px-3 py-1 rounded-md`}>
+                                       {paymentStatus === 1 ? "Menunggu Pembayaran" : paymentStatus === 2 ? "Menunggu Konfirmasi" : "Sudah Melakukan Pembayaran"}
+                                    </span>
+                                 </td>
+                                 <td className="p-2 text-center font-medium flex gap-1 justify-center truncate">
+                                    <i className="bx bxs-info-circle flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer"></i>
+                                 </td>
+                              </tr>
+                           );
+                        })}
                      </tbody>
                   </table>
                </div>

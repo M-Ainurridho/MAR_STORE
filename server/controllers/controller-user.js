@@ -138,7 +138,7 @@ const deleteSubmenuById = async (req, res) => {
 
 const updateSubmenu = async (req, res) => {
    const { _id } = req.params;
-   const { submenu, menu, icon, link } = req.body;
+   const { submenu, icon, link } = req.body;
 
    try {
       const update = await Menu.findOneAndUpdate({ "submenu._id": _id }, { $set: { "submenu.$.name": submenu, "submenu.$.icon": icon, "submenu.$.link": link } });
@@ -237,6 +237,44 @@ const updateCartQuantity = async (req, res) => {
    }
 };
 
+const addPayments = async (req, res) => {
+   const { user_id, paymentCode, carts } = req.body;
+
+   try {
+      const user = await User.findOneAndUpdate(
+         { _id: user_id },
+         {
+            $push: {
+               payments: [
+                  {
+                     _id: new mongoose.Types.ObjectId(),
+                     paymentCode,
+                     items: carts,
+                  },
+               ],
+            },
+            $set: {
+               carts: [],
+            },
+         }
+      );
+      response(200, "Successfully Add Payments", res);
+   } catch (err) {
+      console.log("error: ", err);
+   }
+};
+
+const getPayments = async (req, res) => {
+   const { _id } = req.params;
+
+   try {
+      const user = await User.findOne({ _id });
+      response(200, "Get All Payments", res, user.payments);
+   } catch (err) {
+      console.log("error: ", err);
+   }
+};
+
 module.exports = {
    getAllUser,
    getCartByUserId,
@@ -256,4 +294,6 @@ module.exports = {
    editProfileWithoutImage,
    changePassword,
    updateCartQuantity,
+   addPayments,
+   getPayments,
 };

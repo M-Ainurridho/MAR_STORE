@@ -2,10 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { alertOn } from "../../../redux/reducers";
-import Settings, { convertPrice } from "../../../utils/settings";
+import Settings, { convertPrice, randomCode } from "../../../utils/settings";
 import CartQuantity from "../components/shop/CartQuantity";
 import axios from "axios";
-import LoadingPage from "../../../components/loadings/LoadingPage";
 
 const Cart = () => {
    Settings("Cart");
@@ -14,6 +13,15 @@ const Cart = () => {
    const dispatch = useDispatch();
    const { authentication, data } = useSelector((state) => state.user);
    const [carts, setCarts] = useState([]);
+
+   useEffect(() => {
+      if (!authentication) {
+         dispatch(alertOn());
+         navigate("/");
+      } else {
+         fetchCarts();
+      }
+   }, []);
 
    const fetchCarts = async () => {
       try {
@@ -25,7 +33,6 @@ const Cart = () => {
    };
 
    const updateQuantity = async (_id, quantity) => {
-      console.log(_id);
       try {
          const response = await axios.patch(`http://localhost:3000/user/cart/${_id}`, { user_id: data._id, quantity });
          response.status === 200 && fetchCarts();
@@ -34,14 +41,16 @@ const Cart = () => {
       }
    };
 
-   useEffect(() => {
-      if (!authentication) {
-         dispatch(alertOn());
-         navigate("/");
-      } else {
-         fetchCarts();
+   const onCheckout = async () => {
+      const paymentCode = randomCode(10);
+      try {
+         const response = await axios.post(`http://localhost:3000/user/payments`, { user_id: data._id, paymentCode, carts });
+         response.status === 200 && navigate("/member/payments");
+      } catch (err) {
+         console.log("error: ", err);
       }
-   }, []);
+      
+   };
 
    return (
       <>
@@ -101,7 +110,7 @@ const Cart = () => {
                      <h5>Total</h5>
                      <p>{convertPrice(carts.reduce((total, { price, quantity, discount }) => total + (price * quantity - (discount / 100) * (price * quantity)), 0))}</p>
                   </div>
-                  <button className="bg-green-500 hover:bg-green-600 duration-100 text-white w-full px-2 py-1 rounded-md font-semibold" onClick={() => navigate("/cart/checkout")}>
+                  <button className="bg-green-500 hover:bg-green-600 duration-100 text-white w-full px-2 py-1 rounded-md font-semibold" onClick={onCheckout}>
                      Checkout
                   </button>
                </div>

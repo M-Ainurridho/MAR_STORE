@@ -10,10 +10,12 @@ router.get("/menu", user.getUserMenu);
 router.get("/menu/search?", user.searchRequest);
 router.get("/submenu/:_id", user.searchSubmenu);
 router.get("/access?", user.checkUserAccess);
+router.get("/payments/:_id", user.getPayments)
 // POST
 router.post("/addcart", user.addNewCart);
 router.post("/addmenu", user.addNewMenu);
 router.post("/addsubmenu", user.addNewSubmenu);
+router.post("/payments", user.addPayments);
 // DELETE
 router.delete("/cart", user.deleteCartByUserId);
 router.delete("/deletemenu", user.deleteMenuById);
