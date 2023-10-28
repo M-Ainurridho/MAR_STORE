@@ -59,8 +59,8 @@ const Products = () => {
                {search && <h1 className="font-bold text-2xl mb-4">Searched for "{search}"</h1>}
 
                <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-8">
-                  {products.map(({ _id, name, brand, images, price, stock, discount }, i) => {
-                     return <CardProduct key={i} _id={_id} name={name} brand={brand} images={images} price={price} stock={stock} discount={discount} />;
+                  {products.map(({ _id, name, brand, image, price, stock, discount }, i) => {
+                     return <CardProduct key={i} _id={_id} name={name} brand={brand} image={image} price={price} stock={stock} discount={discount} />;
                   })}
                </div>
                {products.length === 0 && <ItemNotFound />}

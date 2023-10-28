@@ -62,10 +62,10 @@ const ProductDetail = () => {
                <div className="flex gap-x-8">
                   <div className="product-images basis-1/2 relative" onMouseEnter={() => setShow(!show)} onMouseLeave={() => setShow(!show)}>
                      <div className="container-slider rounded-md overflow-hidden shadow-lg">
-                        {item.images !== undefined && (
+                        {item.image !== undefined && (
                            <>
-                              {item.images.map((image, i) => (
-                                 <img key={i} src={require(`../../../../assets/images/products/${image}`)} className={`slider w-full h-96 object-cover ${i !== 0 && "hidden"}`} />
+                              {item.image.map((img, i) => (
+                                 <img key={i} src={require(`../../../../assets/images/products/${img}`)} className={`slider w-full h-96 object-cover ${i !== 0 && "hidden"}`} />
                               ))}
                            </>
                         )}

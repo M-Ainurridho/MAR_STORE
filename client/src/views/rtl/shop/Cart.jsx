@@ -5,6 +5,7 @@ import { alertOn } from "../../../redux/reducers";
 import Settings, { convertPrice } from "../../../utils/settings";
 import CartQuantity from "../components/shop/CartQuantity";
 import axios from "axios";
+import LoadingPage from "../../../components/loadings/LoadingPage";
 
 const Cart = () => {
    Settings("Cart");
@@ -24,6 +25,7 @@ const Cart = () => {
    };
 
    const updateQuantity = async (_id, quantity) => {
+      console.log(_id);
       try {
          const response = await axios.patch(`http://localhost:3000/user/cart/${_id}`, { user_id: data._id, quantity });
          response.status === 200 && fetchCarts();
