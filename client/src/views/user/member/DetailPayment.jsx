@@ -115,7 +115,7 @@ const DetailPayment = () => {
                         <p className="text-red-500 text-xs mt-1">Max size*: 2mb || Extension: (jpg, jpeg, png)</p>
                         {error && (
                            <p className="text-red-500 text-base mt-1 flex items-center">
-                              <i class="bx bxs-info-circle mr-1"></i> <span className="text-sm">{error}</span>
+                              <i className="bx bxs-info-circle mr-1"></i> <span className="text-sm">{error}</span>
                            </p>
                         )}
                      </div>

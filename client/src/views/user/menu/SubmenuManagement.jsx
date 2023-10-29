@@ -4,7 +4,7 @@ import Settings from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { currentSubmenu, deleteSubmenu, newMenu, updateMenu } from "../../../redux/reducers";
+import { currentSubmenu, deleteMenu, deleteSubmenu, newMenu, updateMenu } from "../../../redux/reducers";
 
 const SubmenuManagement = () => {
    Settings("Submenu Management", "admin");
@@ -28,7 +28,10 @@ const SubmenuManagement = () => {
                setAlert(false);
             }, 3000);
          }
-         setReqMethod("GET"); fetchMenu(); setSubmenu(""); setMenu("");
+         setReqMethod("GET");
+         fetchMenu();
+         setSubmenu("");
+         setMenu("");
          setIcon("");
          setLink("");
       }
@@ -96,6 +99,7 @@ const SubmenuManagement = () => {
       } catch (err) {
          console.log("error: ", err);
       }
+      dispatch(newMenu("new"));
       setPopup(false);
       setAlert(!alert);
    };
@@ -148,8 +152,14 @@ const SubmenuManagement = () => {
                                              <td className="p-2 text-center border-x border-x-neutral-200 truncate">{icon}</td>
                                              <td className="p-2 text-center border-x border-x-neutral-200 truncate">{link}</td>
                                              <td className="p-2 text-center font-medium flex gap-1 justify-center truncate">
-                                                   <i  className="bx bxs-pencil flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer" onClick={() => handleEdit(menu._id, _id)}></i>
-                                                   <i  className="bx bxs-trash flex items-center px-1 rounded-md bg-red-500 hover:bg-red-600 hover:shadow-md hover:shadow-red-300 duration-100 text-white cursor-pointer" onClick={() => handleDelete(menu._id, _id)}></i>
+                                                <i
+                                                   className="bx bxs-pencil flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer"
+                                                   onClick={() => handleEdit(menu._id, _id)}
+                                                ></i>
+                                                <i
+                                                   className="bx bxs-trash flex items-center px-1 rounded-md bg-red-500 hover:bg-red-600 hover:shadow-md hover:shadow-red-300 duration-100 text-white cursor-pointer"
+                                                   onClick={() => handleDelete(menu._id, _id)}
+                                                ></i>
                                              </td>
                                           </tr>
                                        );

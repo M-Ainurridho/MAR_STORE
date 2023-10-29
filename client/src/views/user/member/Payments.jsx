@@ -37,7 +37,7 @@ const Dashboard = () => {
             <div className="bg-white rounded-md border border-neutral-200">
                <div className="py-2 px-4 border-b border-b-neutral-200">
                   <p className="">
-                     <i className="bx-fw bx bxs-folder text-base -translate-y-1.5"></i>
+                     <i className="bx-fw bx bxs-purchase-tag text-base -translate-y-1.5"></i>
                      <strong>All Purchases</strong>
                   </p>
                </div>
