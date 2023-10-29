@@ -264,11 +264,11 @@ const addPayments = async (req, res) => {
    }
 };
 
-const getPayments = async (req, res) => {
-   const { _id } = req.params;
+const getPaymentByUserId = async (req, res) => {
+   const { userId } = req.params;
 
    try {
-      const user = await User.findOne({ _id });
+      const user = await User.findOne({ _id: userId });
       response(200, "Get All Payments", res, user.payments);
    } catch (err) {
       console.log("error: ", err);
@@ -295,5 +295,5 @@ module.exports = {
    changePassword,
    updateCartQuantity,
    addPayments,
-   getPayments,
+   getPaymentByUserId,
 };

@@ -10,7 +10,8 @@ import NotFound from "../views/errors/NotFound";
 import Profile from "../views/user/Profile";
 import EditProfile from "../views/user/EditProfile";
 
-import Payments from "../views/user/member/Payments"
+import Payments from "../views/user/member/Payments";
+import DetailPayment from "../views/user/member/DetailPayment";
 
 const UserRouter = () => {
    return (
@@ -44,6 +45,14 @@ const UserRouter = () => {
             element={
                <Layout>
                   <Payments />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/member/payments/detail/:_id"
+            element={
+               <Layout>
+                  <DetailPayment />
                </Layout>
             }
          ></Route>

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Settings, { convertPrice } from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 const Dashboard = () => {
    Settings("Payments");
+
+   const navigate = useNavigate();
 
    const { _id } = useSelector((state) => state.user.data);
    const [payments, setPayments] = useState([]);
@@ -25,7 +28,7 @@ const Dashboard = () => {
    };
 
    return (
-      <section id="dashboard">
+      <section id="payments">
          <CrumbNTitle breadcrumbs={"Member"}>
             <strong>Payments</strong>
          </CrumbNTitle>
@@ -54,16 +57,17 @@ const Dashboard = () => {
                            return (
                               <tr key={_id} className="grid grid-cols-4 text-base border-t border-t-neutral-200">
                                  <td className="p-2 text-center border-r border-r-neutral-200 truncate">{paymentCode.toUpperCase()}</td>
-                                 <td className="p-2 text-center truncate">
-                                    {convertPrice(items.reduce((total, { price, quantity, discount }) => total + (price * quantity - (discount / 100) * (price * quantity)), 0))}
-                                 </td>
+                                 <td className="p-2 text-center truncate">{convertPrice(items.reduce((total, { price, quantity, discount }) => total + (price * quantity - (discount / 100) * (price * quantity)), 0))}</td>
                                  <td className="p-2 text-center border-x border-x-neutral-200 truncate">
                                     <span className={`text-sm text-white ${paymentStatus === 1 ? "bg-neutral-400" : paymentStatus === 2 ? "bg-yellow-400" : "bg-green-500"} font-semibold px-3 py-1 rounded-md`}>
                                        {paymentStatus === 1 ? "Menunggu Pembayaran" : paymentStatus === 2 ? "Menunggu Konfirmasi" : "Sudah Melakukan Pembayaran"}
                                     </span>
                                  </td>
                                  <td className="p-2 text-center font-medium flex gap-1 justify-center truncate">
-                                    <i className="bx bxs-info-circle flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer"></i>
+                                    <i
+                                       className="bx bxs-info-circle flex items-center px-1 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-md hover:shadow-green-300 duration-100 text-white cursor-pointer"
+                                       onClick={() => navigate(`/member/payments/detail/${_id}`)}
+                                    ></i>
                                  </td>
                               </tr>
                            );
