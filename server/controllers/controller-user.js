@@ -275,6 +275,19 @@ const getPaymentByUserId = async (req, res) => {
    }
 };
 
+const getDetailPaymentById = async(req, res) => {
+   const  {_id} = req.params
+
+   try {
+      const {payments} = await User.findOne({ 'payments._id': _id })
+      const detail = payments.find(payment => payment._id == _id)
+      response(200, "Get Detail Payment By Id", res, detail)
+   } catch (err) {
+      console.log("error: ", err);
+
+   }
+} 
+
 module.exports = {
    getAllUser,
    getCartByUserId,
@@ -296,4 +309,5 @@ module.exports = {
    updateCartQuantity,
    addPayments,
    getPaymentByUserId,
+   getDetailPaymentById
 };
