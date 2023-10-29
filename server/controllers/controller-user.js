@@ -183,7 +183,7 @@ const editProfileWithImage = async (req, res) => {
    try {
       const { image } = await User.findOne({ _id });
       if (image !== "nophoto.jpg") {
-         removeFile(image);
+         removeFile("avatars", image);
       }
       const edit = await User.findOneAndUpdate({ _id }, { $set: { name, email, image: filename } });
       userInfo(edit, res, "Edit Profile");
@@ -295,6 +295,11 @@ const uploadProof = async (req, res) => {
 
    try {
       const upload = await User.findOneAndUpdate({ "payments._id": _id }, { $set: { "payments.$.receipt": filename, "payments.$.paymentStatus": 2 } });
+
+      const { receipt } = upload.payments.find((payment) => payment._id == _id);
+      if (receipt !== "nophoto.jpg") {
+         removeFile("proof_of_payment", receipt);
+      }
       response(200, "Successfully! Upload Proof", res, []);
    } catch (err) {
       console.log("error:", err);

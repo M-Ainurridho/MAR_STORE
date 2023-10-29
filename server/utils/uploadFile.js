@@ -30,5 +30,5 @@ function fileFilter(req, file, cb) {
    }
 }
 
-module.exports.changeAvatar = multer({ avatarConfig, fileFilter });
+module.exports.changeAvatar = multer({ storage: avatarConfig, fileFilter });
 module.exports.proofPayment = multer({ storage: proofConfig, fileFilter });
