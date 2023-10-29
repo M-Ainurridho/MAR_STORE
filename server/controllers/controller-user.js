@@ -275,18 +275,31 @@ const getPaymentByUserId = async (req, res) => {
    }
 };
 
-const getDetailPaymentById = async(req, res) => {
-   const  {_id} = req.params
+const getDetailPaymentById = async (req, res) => {
+   const { _id } = req.params;
 
    try {
-      const {payments} = await User.findOne({ 'payments._id': _id })
-      const detail = payments.find(payment => payment._id == _id)
-      response(200, "Get Detail Payment By Id", res, detail)
+      const { payments } = await User.findOne({ "payments._id": _id });
+      const detail = payments.find((payment) => payment._id == _id);
+      response(200, "Get Detail Payment By Id", res, detail);
    } catch (err) {
       console.log("error: ", err);
-
    }
-} 
+};
+
+const uploadProof = async (req, res) => {
+   if (req.file === undefined) return response(400, "Invalid Image", res, "Not image type");
+
+   const { filename, size } = req.file;
+   const { _id } = req.params;
+
+   try {
+      const upload = await User.findOneAndUpdate({ "payments._id": _id }, { $set: { "payments.$.receipt": filename, "payments.$.paymentStatus": 2 } });
+      response(200, "Successfully! Upload Proof", res, []);
+   } catch (err) {
+      console.log("error:", err);
+   }
+};
 
 module.exports = {
    getAllUser,
@@ -309,5 +322,6 @@ module.exports = {
    updateCartQuantity,
    addPayments,
    getPaymentByUserId,
-   getDetailPaymentById
+   getDetailPaymentById,
+   uploadProof,
 };

@@ -1,13 +1,23 @@
 const multer = require("multer");
 const path = require("path");
 
-const storage = multer.diskStorage({
+const avatarConfig = multer.diskStorage({
    destination: function (req, file, cb) {
       cb(null, path.join(__dirname, "../../client/src/assets/images/avatars"));
    },
    filename: function (req, file, cb) {
       const uniqueSuffix = Date.now() + path.extname(file.originalname);
-      cb(null, "upload" + "-" + uniqueSuffix);
+      cb(null, "avatar" + "-" + uniqueSuffix);
+   },
+});
+
+const proofConfig = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, path.join(__dirname, "../../client/src/assets/images/proof_of_payment"));
+   },
+   filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + path.extname(file.originalname);
+      cb(null, "proof" + "-" + uniqueSuffix);
    },
 });
 
@@ -20,4 +30,5 @@ function fileFilter(req, file, cb) {
    }
 }
 
-module.exports.upload = multer({ storage, fileFilter });
+module.exports.changeAvatar = multer({ avatarConfig, fileFilter });
+module.exports.proofPayment = multer({ storage: proofConfig, fileFilter });

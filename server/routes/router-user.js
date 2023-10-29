@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { user } = require("../controllers");
-const { upload } = require("../utils/uploadFile");
+const { changeAvatar, proofPayment } = require("../utils/uploadFile");
 const { editUserValidation, changePasswordValidation } = require("../utils/validation");
 
 // GET
@@ -22,11 +22,12 @@ router.delete("/cart", user.deleteCartByUserId);
 router.delete("/deletemenu", user.deleteMenuById);
 router.delete("/deletesubmenu", user.deleteSubmenuById);
 // PATCH
-router.patch("/edit/with_image/:_id", upload.single("image"), user.editProfileWithImage);
+router.patch("/edit/with_image/:_id", changeAvatar.single("image"), user.editProfileWithImage);
 router.patch("/edit/without_image/:_id", editUserValidation, user.editProfileWithoutImage);
 router.patch("/updatemenu/:_id", user.updateUserMenu);
 router.patch("/updatesubmenu/:_id", user.updateSubmenu);
 router.patch("/changepassword/:_id", changePasswordValidation, user.changePassword);
 router.patch("/cart/:_id", user.updateCartQuantity);
+router.patch("/payments/:_id", proofPayment.single("upload_proof"), user.uploadProof);
 
 module.exports = router;

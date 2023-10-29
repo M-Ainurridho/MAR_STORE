@@ -60,7 +60,7 @@ const Dashboard = () => {
                                  <td className="p-2 text-center truncate">{convertPrice(items.reduce((total, { price, quantity, discount }) => total + (price * quantity - (discount / 100) * (price * quantity)), 0))}</td>
                                  <td className="p-2 text-center border-x border-x-neutral-200 truncate">
                                     <span className={`text-sm text-white ${paymentStatus === 1 ? "bg-neutral-400" : paymentStatus === 2 ? "bg-yellow-400" : "bg-green-500"} font-semibold px-3 py-1 rounded-md`}>
-                                       {paymentStatus === 1 ? "Menunggu Pembayaran" : paymentStatus === 2 ? "Menunggu Konfirmasi" : "Sudah Melakukan Pembayaran"}
+                                       {paymentStatus === 1 ? "Menunggu Pembayaran" : paymentStatus === 2 ? "Menunggu Konfirmasi Admin" : "Sudah Melakukan Pembayaran"}
                                     </span>
                                  </td>
                                  <td className="p-2 text-center font-medium flex gap-1 justify-center truncate">
