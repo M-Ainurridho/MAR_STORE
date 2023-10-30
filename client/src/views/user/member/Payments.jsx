@@ -5,14 +5,13 @@ import Settings, { convertPrice } from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
 
-const Dashboard = () => {
+const Payments = () => {
    Settings("Payments");
 
    const navigate = useNavigate();
 
    const { _id } = useSelector((state) => state.user.data);
    const [payments, setPayments] = useState([]);
-   const [total, setTotal] = useState(null);
 
    useEffect(() => {
       fetchData();
@@ -81,4 +80,4 @@ const Dashboard = () => {
    );
 };
 
-export default Dashboard;
+export default Payments;

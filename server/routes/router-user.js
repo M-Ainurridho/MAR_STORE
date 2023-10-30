@@ -10,6 +10,7 @@ router.get("/menu", user.getUserMenu);
 router.get("/menu/search?", user.searchRequest);
 router.get("/submenu/:_id", user.searchSubmenu);
 router.get("/access?", user.checkUserAccess);
+router.get("/payments?", user.getAllPayments);
 router.get("/payments/:userId", user.getPaymentByUserId);
 router.get("/payments/detail/:_id", user.getDetailPaymentById);
 // POST

@@ -2,16 +2,19 @@ import { Route, Routes } from "react-router-dom";
 
 import Layout from "../views/layouts/user";
 import Dashboard from "../views/user/Dashboard";
-import Customers from "../views/user/admin/Customers";
-import MenuManagement from "../views/user/menu/MenuManagement";
-import SubmenuManagement from "../views/user/menu/SubmenuManagement";
-import NotFound from "../views/errors/NotFound";
-
 import Profile from "../views/user/Profile";
 import EditProfile from "../views/user/EditProfile";
-
+import NotFound from "../views/errors/NotFound";
+// Admin
+import Members from "../views/user/admin/Members";
+import PaymentConfirmation from "../views/user/admin/PaymentConfirmation";
+import A_PaymentDetail from "../views/user/admin/PaymentDetail";
+// Menu
+import MenuManagement from "../views/user/menu/MenuManagement";
+import SubmenuManagement from "../views/user/menu/SubmenuManagement";
+// member
 import Payments from "../views/user/member/Payments";
-import DetailPayment from "../views/user/member/DetailPayment";
+import M_PaymentDetail from "../views/user/member/PaymentDetail";
 
 const UserRouter = () => {
    return (
@@ -25,10 +28,26 @@ const UserRouter = () => {
             }
          ></Route>
          <Route
-            path="/admin/customers"
+            path="/admin/members"
             element={
                <Layout>
-                  <Customers />
+                  <Members />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/admin/payment_confirmation"
+            element={
+               <Layout>
+                  <PaymentConfirmation />
+               </Layout>
+            }
+         ></Route>
+         <Route
+            path="/admin/payment_confirmation/detail/:_id"
+            element={
+               <Layout>
+                  <A_PaymentDetail/>
                </Layout>
             }
          ></Route>
@@ -52,7 +71,7 @@ const UserRouter = () => {
             path="/member/payments/detail/:_id"
             element={
                <Layout>
-                  <DetailPayment />
+                  <M_PaymentDetail />
                </Layout>
             }
          ></Route>

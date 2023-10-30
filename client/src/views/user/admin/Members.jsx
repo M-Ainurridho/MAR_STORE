@@ -3,8 +3,8 @@ import Settings, { capitalize } from "../../../utils/settings";
 import CrumbNTitle from "../components/CrumbNTitle";
 import axios from "axios";
 
-const Customers = () => {
-   Settings("Customers");
+const Members = () => {
+   Settings("Members");
 
    const [users, setUsers] = useState([]);
 
@@ -22,16 +22,16 @@ const Customers = () => {
    }, []);
 
    return (
-      <section id="customers">
+      <section id="members">
          <CrumbNTitle breadcrumbs={"Admin"}>
-            <strong>Customers</strong>
+            <strong>Members</strong>
          </CrumbNTitle>
          <div className="p-6 text-lg">
             <div className="edit-profile bg-white rounded-md border border-neutral-200">
                <div className="py-2 px-4 border-b border-b-neutral-200 flex justify-between">
                   <p className="">
                      <i className="bx-fw bx bxs-user text-base -translate-y-1.5"></i>
-                     <strong>All Users</strong>
+                     <strong>All Members</strong>
                   </p>
                </div>
 
@@ -46,16 +46,17 @@ const Customers = () => {
                         </tr>
                      </thead>
                      <tbody>
-                        {users.map(({ _id, name, email, role, created }) => {
-                           return (
-                              <tr key={_id} className="grid grid-cols-4 text-base border-t border-t-neutral-200">
-                                 <td className="p-2 text-center truncate">{name}</td>
-                                 <td className="p-2 text-center truncate">{email}</td>
-                                 <td className="p-2 text-center truncate">{capitalize(role)}</td>
-                                 <td className="p-2 text-center truncate">{new Date(created).toLocaleString()}</td>
-                              </tr>
-                           );
-                        })}
+                        {users.map(
+                           ({ _id, name, email, role, created }) =>
+                              role !== "admin" && (
+                                 <tr key={_id} className="grid grid-cols-4 text-base border-t border-t-neutral-200">
+                                    <td className="p-2 text-center truncate">{name}</td>
+                                    <td className="p-2 text-center truncate">{email}</td>
+                                    <td className="p-2 text-center truncate">{capitalize(role)}</td>
+                                    <td className="p-2 text-center truncate">{new Date(created).toLocaleString()}</td>
+                                 </tr>
+                              )
+                        )}
                      </tbody>
                   </table>
                </div>
@@ -65,4 +66,4 @@ const Customers = () => {
    );
 };
 
-export default Customers;
+export default Members;

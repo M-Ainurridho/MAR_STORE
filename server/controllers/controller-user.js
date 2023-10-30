@@ -237,6 +237,18 @@ const updateCartQuantity = async (req, res) => {
    }
 };
 
+const getAllPayments = async (req, res) => {
+   const { status } = req.query;
+   if (status) {
+      try {
+         const payments = await User.find({ "payments.paymentStatus": parseInt(status) });
+         response(200, "Get All Payments", res, payments);
+      } catch (err) {
+         console.log("error: ", err);
+      }
+   }
+};
+
 const addPayments = async (req, res) => {
    const { user_id, paymentCode, carts } = req.body;
 
@@ -325,6 +337,7 @@ module.exports = {
    editProfileWithoutImage,
    changePassword,
    updateCartQuantity,
+   getAllPayments,
    addPayments,
    getPaymentByUserId,
    getDetailPaymentById,
